@@ -1,0 +1,38 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cnae": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "descricaocnae": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "indicaprincipal": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "inteiro",
+      "valorantigo": "inherit",
+      "valornovo": "inherit",
+      "valoresaceitos": [
+        "0",
+        "1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "nome": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtnascimento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "data",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numregistroclasse": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "sociedadeclasse": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}

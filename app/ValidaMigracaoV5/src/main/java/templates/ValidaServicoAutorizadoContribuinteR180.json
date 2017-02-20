@@ -1,0 +1,43 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "inscricao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "codigolc116": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "aliquota": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "decimal(14,2)",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtinicio": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "data",
+      "observacao": "VERIFICAR COM ANA SE DADO SERÁ MIGRADO",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}

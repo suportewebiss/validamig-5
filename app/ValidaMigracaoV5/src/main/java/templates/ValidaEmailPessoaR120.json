@@ -1,0 +1,18 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "emailpessoa": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}

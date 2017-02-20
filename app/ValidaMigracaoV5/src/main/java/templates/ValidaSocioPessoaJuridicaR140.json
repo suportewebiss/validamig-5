@@ -1,0 +1,26 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numdocumentosocio": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "prcparticipacao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "decimal",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}

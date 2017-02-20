@@ -1,0 +1,38 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "fonepessoa": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "tipofone": [
+    {
+      "tipocomparacao": "referencia",
+      "tipodado": "string",
+      "valorantigo": [
+        "cel",
+        "com",
+        "fax",
+        "rec",
+        "res"
+      ],
+      "valornovo": [
+        "com",
+        "com",
+        "fax",
+        "rec",
+        "com"
+      ]
+    }
+  ]
+}

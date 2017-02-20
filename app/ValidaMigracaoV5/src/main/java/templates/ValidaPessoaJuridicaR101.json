@@ -1,0 +1,141 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "tipopessoa": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Na query da v2 desmembre o TIPO JURIDICO indicando se o mesmo é cartório (car) ou contador (con), os demais são pf",
+      "tipodado": "string",
+      "valorantigo": [
+        "pf",
+        "car",
+        "con"
+      ],
+      "valornovo": [
+        "pf",
+        "car",
+        "con"
+      ]
+    }
+  ],
+  "razaosocial": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "nomefantasia": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Nome Fantasia deve preencher com a Razão Social",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "situacaopessoa": [
+    {
+      "tipocomparacao": "referencia",
+      "tipodado": "string",
+      "valorantigo": [
+        "ativo",
+        "baixado",
+        "inativo",
+        "não disponível",
+        "paralisado a revelia",
+        "Paralizado Temporariamente",
+        "Provisório",
+        "Suspenso"
+      ],
+      "valornovo": [
+        "ativa",
+        "baixada",
+        "ANALISAR OS VINCULOS"
+      ]
+    }
+  ],
+  "inscricaoestadual": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "capitalsocial": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtaberturaempresa": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "porteempresa": [
+    {
+      "tipocomparacao": "referencia",
+      "tipodado": "string",
+      "observacao": "Na query da v2, caso a empresa seja mei este campo aqui deverá ser MEI",
+      "valorantigo": [
+        "ge",
+        "md",
+        "mg",
+        "me",
+        "nd",
+        "pe",
+        "mei"
+      ],
+      "valornovo": [
+        "gp",
+        "mp",
+        "ANALISAR OS VINCULOS"
+      ]
+    }
+  ],
+  "indicasubstitutotributario": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valoresaceitos": [
+        "1",
+        "0"
+      ],
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "indicaregimecaixa": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valoresaceitos": [
+        "1",
+        "0"
+      ],
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "naturezajuridica": [
+    {
+      "tipocomparacao": "referencia",
+      "tipodado": "string",
+      "observacao": "VERIFICAR COM A ANA SE ESTE CAMPO É MIGRADO OU CADASTRADO MANUALMENTE"
+    }
+  ]
+}

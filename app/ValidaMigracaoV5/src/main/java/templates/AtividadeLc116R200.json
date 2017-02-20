@@ -1,0 +1,27 @@
+{
+  "codigolc116": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "observação": "Esta tabela segue a TipoAtividadeMunicipio",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "descricaoatividade": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "aliquotapadrao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "decimal(3,2)",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}

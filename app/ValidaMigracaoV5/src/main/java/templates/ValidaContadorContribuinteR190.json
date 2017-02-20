@@ -1,0 +1,35 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numdocumentocontador": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "inscricao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtinicio": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "data",
+      "observacao": "VERIFICAR A NECESSIDADE DESTE CAMPO",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}

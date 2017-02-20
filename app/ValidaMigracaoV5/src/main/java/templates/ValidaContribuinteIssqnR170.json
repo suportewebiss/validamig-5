@@ -1,0 +1,179 @@
+{
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "inscricao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "regimeissqn": [
+    {
+      "tipocomparacao": "referencia",
+      "tipodado": "string",
+      "valorantigo": [
+        "estimativa",
+        "fixo",
+        "mei",
+        "na",
+        "nd",
+        "normal",
+        "uniprofiss",
+        "simples_normal",
+        "simples_estimado",
+        "simples_uniprofiss"
+      ],
+      "valornovo": [
+        "estimado",
+        "autonomo",
+        "mei",
+        "sobre_movimento_mensal",
+        "sobre_movimento_mensal",
+        "sobre_movimento_mensal",
+        "uniprofissional",
+        "simples_nacional",
+        "simples_nacional_estimado",
+        "VERIFICAR_DE_ACORDO_GODOY_NAO_EXISTE_SN_UNIPROFISS"
+      ]
+    }
+  ],
+  "qtdprofissionais": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "inteiro",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorestimativa": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "decimal",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorfixo": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "decimal",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtinicioautorizacao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "data",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtfimautorizacao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "data",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "indicaavulso": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "inteiro",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtcadastro": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "data",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "nomecontatocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "observacao": "VERIFICAR COM ANA SE ESTE DADO É MIGRADO E DO QUE SE TRATA",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "emailcontatocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "observacao": "VERIFICAR COM ANA SE ESTE DADO É MIGRADO E DO QUE SE TRATA",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "telefonecontatocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "observacao": "VERIFICAR COM ANA SE ESTE DADO É MIGRADO E DO QUE SE TRATA",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "logradouroenderecocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numeroenderecocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "complementoenderecocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "bairroenderecocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cidadeenderecocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "ufenderecocontribuinte": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}
