@@ -5,6 +5,12 @@
  */
 package GUI;
 
+import Controller.AtividadeLc116;
+import Controller.Router;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author moises
@@ -31,8 +37,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescontinuado = new javax.swing.JTextField();
         jButtonCarregarDescontinuado = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBoxDescontinuado = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldNova = new javax.swing.JTextField();
         jButtonNova = new javax.swing.JButton();
@@ -52,10 +56,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 jButtonCarregarDescontinuadoActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("Versão descontinuada");
-
-        jComboBoxDescontinuado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "V2", "V4.5" }));
 
         jLabel3.setText("Planilha contendo os dados da nova versão");
 
@@ -78,10 +78,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jComboBoxDescontinuado, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -94,16 +91,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             .addComponent(jButtonCarregarDescontinuado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonNova, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonTemplate))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBoxDescontinuado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -121,10 +113,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldTemplate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonTemplate))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 100, Short.MAX_VALUE))
         );
 
         jButtonValidar.setText("VALIDAR");
+        jButtonValidar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonValidarActionPerformed(evt);
+            }
+        });
 
         jButtonObterPlanilhaFinal.setText("OBTER PLANILHA FINAL");
 
@@ -165,6 +162,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void jTextFieldNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNovaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNovaActionPerformed
+
+    private void jButtonValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonValidarActionPerformed
+
+       
+       Object obj = Router.getObject("atividadelc116r200");
+       
+       
+       System.out.println(obj.getClass().getSimpleName());
+    }//GEN-LAST:event_jButtonValidarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,9 +213,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonObterPlanilhaFinal;
     private javax.swing.JButton jButtonTemplate;
     private javax.swing.JButton jButtonValidar;
-    private javax.swing.JComboBox jComboBoxDescontinuado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;

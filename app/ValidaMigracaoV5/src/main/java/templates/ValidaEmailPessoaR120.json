@@ -1,4 +1,5 @@
 {
+  "templatename": "ValidaEmailPessoaR120",
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",

@@ -1,4 +1,5 @@
 {
+  "templatename": "ValidaPessoaFisicaR100",
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
