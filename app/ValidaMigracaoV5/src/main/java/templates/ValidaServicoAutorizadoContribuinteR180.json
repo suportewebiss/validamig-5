@@ -31,14 +31,5 @@
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
-  ],
-  "dtinicio": [
-    {
-      "tipocomparacao": "igualdade",
-      "tipodado": "data",
-      "observacao": "VERIFICAR COM ANA SE DADO SERÁ MIGRADO",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
   ]
 }
