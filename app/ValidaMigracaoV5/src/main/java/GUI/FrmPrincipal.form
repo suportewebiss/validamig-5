@@ -30,10 +30,15 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-              <Component id="jButtonValidar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Component id="jButtonObterPlanilhaFinal" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="547" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabelProgress" min="-2" pref="292" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jButtonValidar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="jButtonObterPlanilhaFinal" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="521" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -42,12 +47,14 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="125" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLabelProgress" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonValidar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonObterPlanilhaFinal" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="84" max="32767" attributes="0"/>
+              <EmptySpace pref="98" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -140,6 +147,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="CARREGAR"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNovaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
@@ -152,6 +162,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="CARREGAR"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonTemplateActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -167,6 +180,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="OBTER PLANILHA FINAL"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelProgress">
     </Component>
   </SubComponents>
 </Form>
