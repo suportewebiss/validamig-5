@@ -5,11 +5,12 @@
  */
 package GUI;
 
-import Controller.AtividadeLc116;
+
 import Controller.Router;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -45,6 +46,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jButtonTemplate = new javax.swing.JButton();
         jButtonValidar = new javax.swing.JButton();
         jButtonObterPlanilhaFinal = new javax.swing.JButton();
+        jLabelProgress = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,10 +68,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
 
         jButtonNova.setText("CARREGAR");
+        jButtonNova.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovaActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Arquivo de template");
 
         jButtonTemplate.setText("CARREGAR");
+        jButtonTemplate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTemplateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -135,21 +147,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jButtonValidar)
-                .addGap(42, 42, 42)
-                .addComponent(jButtonObterPlanilhaFinal)
-                .addContainerGap(547, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonValidar)
+                        .addGap(42, 42, 42)
+                        .addComponent(jButtonObterPlanilhaFinal)))
+                .addContainerGap(521, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(125, 125, 125)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelProgress)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonValidar)
                     .addComponent(jButtonObterPlanilhaFinal))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,6 +174,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void jButtonCarregarDescontinuadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCarregarDescontinuadoActionPerformed
         // TODO add your handling code here:
+          JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.xlsx", "xlsx");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            jTextFieldDescontinuado.setText(selectedFile.getAbsolutePath());
+        }
     }//GEN-LAST:event_jButtonCarregarDescontinuadoActionPerformed
 
     private void jTextFieldNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNovaActionPerformed
@@ -165,13 +191,66 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void jButtonValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonValidarActionPerformed
 
+        Boolean invalido = false;
+        String pathOld = jTextFieldDescontinuado.getText().trim();
+        String pathNew = jTextFieldNova.getText().trim();
+        String pathTemplate = jTextFieldTemplate.getText().trim();
+        if (pathOld.equals(""))
+        {
+            
+            JOptionPane.showMessageDialog(null, "É obrigatório carregar o excel da versão antiga");
+            invalido = true;
+        }
+        if (pathNew.equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "É obrigatório carregar o excel da versão nova");
+            invalido = true;
+        }
+        if (pathTemplate.equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "É obrigatório carregar o template");
+            invalido = true;
+        }
+        
+       // if (! invalido)
+            
+        
+        Router router = new Router(pathOld, pathNew, pathTemplate, jLabelProgress);
+    //String template = jTextFieldTemplate.getText()
+     //  Object obj = Router.getObject("atividadelc116r200");
        
-       Object obj = Router.getObject("atividadelc116r200");
        
-       
-       System.out.println(obj.getClass().getSimpleName());
+    //  System.out.println(obj.getClass().getSimpleName());
     }//GEN-LAST:event_jButtonValidarActionPerformed
 
+    private void jButtonTemplateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTemplateActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            jTextFieldTemplate.setText(selectedFile.getAbsolutePath());
+            //System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+        }
+        
+    }//GEN-LAST:event_jButtonTemplateActionPerformed
+
+    private void jButtonNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovaActionPerformed
+        // TODO add your handling code here:
+         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.xlsx", "xlsx");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            jTextFieldNova.setText(selectedFile.getAbsolutePath());
+        }
+        
+    }//GEN-LAST:event_jButtonNovaActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -216,9 +295,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelProgress;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldDescontinuado;
     private javax.swing.JTextField jTextFieldNova;
     private javax.swing.JTextField jTextFieldTemplate;
     // End of variables declaration//GEN-END:variables
+    
 }

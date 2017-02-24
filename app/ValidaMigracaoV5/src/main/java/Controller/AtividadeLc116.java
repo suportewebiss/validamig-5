@@ -7,6 +7,7 @@ package Controller;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,7 @@ public class AtividadeLc116 implements InterfaceMigracao {
     private String codigoLc116 = null;
     private String descricaoAtividade = null;
     private BigDecimal aliquotaPadrao = null;
+    private ArrayList<String> log = new ArrayList<String>();
     
     public void setCodigoLc116(String value)
     {
@@ -64,4 +66,35 @@ public class AtividadeLc116 implements InterfaceMigracao {
         return  codigoLc116 + descricaoAtividade + 
                 (new DecimalFormat("#0.##").format(aliquotaPadrao)).toString();
     }
+
+    @Override
+    public void addLog(String log) {
+        this.log.add(log);
+    }
+
+    @Override
+    public ArrayList<String> getLog() {
+        return log;
+    }
+
+    @Override
+    public String getString(String columnName) {
+        String ret = null;
+        switch(columnName.toLowerCase())
+        {
+            case "codigolc116":
+                ret = codigoLc116;
+                break;
+            case "descricaoatividade":
+                ret = descricaoAtividade;
+                break;
+            case "aliquotapadrao":
+                ret = (new DecimalFormat("#0.##").format(aliquotaPadrao)).toString();
+                break;
+        }
+        
+        return ret;
+    }
+    
+    
 }
