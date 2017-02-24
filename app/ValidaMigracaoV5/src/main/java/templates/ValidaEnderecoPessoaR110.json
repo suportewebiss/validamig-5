@@ -55,18 +55,5 @@
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
-  ],
-  "tipoendereco": [
-    {
-      "tipocomparacao": "igualdade",
-      "observacao": "Na query da v2 quando PJ pegar somente endereço localização.",
-      "tipodado": "string",
-      "valoresaceitos": [
-        "r",
-        "l"
-      ],
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
   ]
 }

@@ -50,9 +50,6 @@ public class AtividadeLc116 implements InterfaceMigracao {
         return aliquotaPadrao;
     }
     
-    
-    
-
     @Override
     public void setExcelRowNumber(Integer row) {
         excelRowNumber = row;
@@ -62,7 +59,6 @@ public class AtividadeLc116 implements InterfaceMigracao {
     public Integer getExcelRowNumber() {
         return excelRowNumber;
     }
-    
    
     public String toString()
     {

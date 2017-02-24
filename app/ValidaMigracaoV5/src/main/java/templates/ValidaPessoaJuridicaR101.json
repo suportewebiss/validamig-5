@@ -59,7 +59,12 @@
       "valornovo": [
         "ativa",
         "baixada",
-        "ANALISAR OS VINCULOS"
+        "baixada",
+        "baixada",
+        "baixada",
+        "baixada",
+        "baixada",
+        "baixada"        
       ]
     }
   ],
@@ -74,7 +79,7 @@
   "capitalsocial": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "string",
+      "tipodado": "decimal(14,2)",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -82,7 +87,7 @@
   "dtaberturaempresa": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "string",
+      "tipodado": "Date",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -104,14 +109,18 @@
       "valornovo": [
         "gp",
         "mp",
-        "ANALISAR OS VINCULOS"
+        "mp",
+        "me",
+        "me",        
+        "epp",
+        "mei"        
       ]
     }
   ],
   "indicasubstitutotributario": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "string",
+      "tipodado": "inteiro",
       "valoresaceitos": [
         "1",
         "0"
@@ -123,20 +132,13 @@
   "indicaregimecaixa": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "string",
+      "tipodado": "inteiro",
       "valoresaceitos": [
         "1",
         "0"
       ],
       "valorantigo": "inherit",
       "valornovo": "inherit"
-    }
-  ],
-  "naturezajuridica": [
-    {
-      "tipocomparacao": "referencia",
-      "tipodado": "string",
-      "observacao": "VERIFICAR COM A ANA SE ESTE CAMPO É MIGRADO OU CADASTRADO MANUALMENTE"
     }
   ]
 }
