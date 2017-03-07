@@ -25,7 +25,7 @@ import org.json.JSONObject;
  * @author moises
  */
 public class Router {
-     private FileInputStream  oldFile;
+    private FileInputStream  oldFile;
     private FileInputStream  newFile;
     private File  templateFile;
     private JSONObject template;
@@ -68,6 +68,8 @@ public class Router {
         switch(template.getString("templatename"))
         {
             case "AtividadeLc116R200": executeAtividadeLc116(); break;
+            case "ValidaPessoaJuridicaR101": executePessoaJuridicaR101(); break;
+            case "ValidaContadorContribuinteR190": executeContadorContribuinteR190(); break;
         }
     }
     
@@ -75,9 +77,22 @@ public class Router {
     public void executeAtividadeLc116()
     {
       
-        RunAtividadeLc116 run = new RunAtividadeLc116(oldFile, newFile, template, progress);
+        RunContadorContribuinte run = new RunContadorContribuinte(oldFile, newFile, template, progress);
         
     }
-    
 
+    private void executePessoaJuridicaR101() 
+    {
+        
+        RunPessoaJuridica run = new RunPessoaJuridica(oldFile, newFile, template, progress);
+      
+    }
+    
+     private void executeContadorContribuinteR190() 
+    {
+        
+        RunContadorContribuinte run = new RunContadorContribuinte(oldFile, newFile, template, progress);
+      
+    }
+    
 }
