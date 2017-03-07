@@ -224,14 +224,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonValidarActionPerformed
 
     private void jButtonTemplateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTemplateActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            jTextFieldTemplate.setText(selectedFile.getAbsolutePath());
-            //System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+        // TODO add your handling code here:        
+        JFileChooser fileChooser = new JFileChooser();        
+        String pathTemplate = System.getProperty("user.dir") + File.separator + "src" +        
+        File.separator + "main" + File.separator + "java" + File.separator + "templates" ;        
+        fileChooser.setCurrentDirectory(new File(pathTemplate));        
+        System.out.println(System.getProperty("user.dir") );        
+        int result = fileChooser.showOpenDialog(this);        
+        if (result == JFileChooser.APPROVE_OPTION) {            
+            File selectedFile = fileChooser.getSelectedFile();            
+        jTextFieldTemplate.setText(selectedFile.getAbsolutePath());            
+        //System.out.println("Selected file: " + selectedFile.getAbsolutePath());        
         }
         
     }//GEN-LAST:event_jButtonTemplateActionPerformed

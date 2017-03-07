@@ -23,14 +23,5 @@
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
-  ],
-  "dtinicio": [
-    {
-      "tipocomparacao": "igualdade",
-      "tipodado": "data",
-      "observacao": "VERIFICAR A NECESSIDADE DESTE CAMPO",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
   ]
 }

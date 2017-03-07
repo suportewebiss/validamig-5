@@ -14,12 +14,12 @@
       "observacao": "Na query da v2 desmembre o TIPO JURIDICO indicando se o mesmo é cartório (car) ou contador (con), os demais são pf",
       "tipodado": "string",
       "valorantigo": [
-        "pf",
+        "pj",
         "car",
         "con"
       ],
       "valornovo": [
-        "pf",
+        "pj",
         "car",
         "con"
       ]
