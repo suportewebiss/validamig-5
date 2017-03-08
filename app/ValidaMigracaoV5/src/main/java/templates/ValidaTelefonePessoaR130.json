@@ -25,14 +25,16 @@
         "com",
         "fax",
         "rec",
-        "res"
+        "res",
+        ""
       ],
       "valornovo": [
         "com",
         "com",
         "fax",
         "rec",
-        "com"
+        "com",
+        ""
       ]
     }
   ]

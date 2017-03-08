@@ -18,4 +18,5 @@ public interface InterfaceMigracao {
     public Integer getExcelRowNumber();
     public String getString(String columnName);
     public String toString();
+    public void setString(String columnName, String value);
 }
