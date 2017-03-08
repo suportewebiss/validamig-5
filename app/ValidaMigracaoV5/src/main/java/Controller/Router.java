@@ -70,6 +70,7 @@ public class Router {
             case "AtividadeLc116R200": executeAtividadeLc116(); break;
             case "ValidaPessoaJuridicaR101": executePessoaJuridicaR101(); break;
             case "ValidaContadorContribuinteR190": executeContadorContribuinteR190(); break;
+            case "ValidaTelefonePessoaR130": executeTelefonePessoaR130(); break;
         }
     }
     
@@ -92,6 +93,12 @@ public class Router {
     {
         
         RunContadorContribuinte run = new RunContadorContribuinte(oldFile, newFile, template, progress);
+      
+    }
+    private void executeTelefonePessoaR130() 
+    {
+        
+        RunTelefonePessoa run = new RunTelefonePessoa(oldFile, newFile, template, progress);
       
     }
     
