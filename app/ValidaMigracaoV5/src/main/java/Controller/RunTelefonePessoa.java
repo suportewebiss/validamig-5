@@ -30,26 +30,26 @@ import org.json.JSONObject;
  *
  * @author moises
  */
-public class RunPessoaJuridica 
+public class RunTelefonePessoa 
 {
     private ArrayList<Header> header = new ArrayList<Header>();
-    private ArrayList<PessoaJuridica> dadosAntigo = new ArrayList<PessoaJuridica>();
-    private ArrayList<PessoaJuridica> dadosNovo = new ArrayList<PessoaJuridica>();
+    private ArrayList<TelefonePessoa> dadosAntigo = new ArrayList<TelefonePessoa>();
+    private ArrayList<TelefonePessoa> dadosNovo = new ArrayList<TelefonePessoa>();
     private JLabel progress;
     private String ColunaChave;
     JSONObject template;
     XSSFWorkbook oldWorkbook;
     XSSFWorkbook newWorkbook;
-    public RunPessoaJuridica(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
+    public RunTelefonePessoa(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
     {
         this.progress = progress;
-        ColunaChave = template.getString("colunachave");
+        ColunaChave = template.getString("colunachave");       
         // Prepara um arraylist para armazenar o indice de cada coluna
         Iterator<?> keys = template.keys();
         while( keys.hasNext() ) {
             String key = ((String)keys.next()).toLowerCase();
             // Insere os nomes dos headers
-            if (! key.equals("templatename") && !key.equals("colunachave")) 
+            if (! key.equals("templatename") && !key.equals("colunachave"))
                 header.add(new Header(key));
         }
         
@@ -60,7 +60,7 @@ public class RunPessoaJuridica
             oldWorkbook = new XSSFWorkbook(streamOldFile);
             newWorkbook = new XSSFWorkbook(streamNewFile);
         } catch (IOException ex) {
-            Logger.getLogger(RunPessoaJuridica.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RunTelefonePessoa.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -133,7 +133,7 @@ public class RunPessoaJuridica
                     Row row = rowIterator.next();
                     // atualiza opro
                     progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetAntigo.getLastRowNum()) + " da planilha antiga" );
-                    PessoaJuridica at = new PessoaJuridica();
+                    TelefonePessoa at = new TelefonePessoa();
                     at.setExcelRowNumber(row.getRowNum());
                     
                     for (Integer index = 0; index < header.size(); index++)
@@ -172,7 +172,13 @@ public class RunPessoaJuridica
                     dadosAntigo.add(at);
                 }
                 
-                
+                for(Integer a = 0; a<dadosAntigo.size();a++)
+                { 
+                    System.out.println("a: "+String.valueOf(a)+"; numdocumento "+dadosAntigo.get(a).getString("numdocumento"));
+                    System.out.println("fonepessoa "+dadosAntigo.get(a).getString("fonepessoa"));
+                    System.out.println("tipoFone "+dadosAntigo.get(a).getString("tipofone"));
+                    
+                }
                  // PRCESSA SHEET NOVA
                 XSSFSheet sheetNova;
                 sheetNova = newWorkbook.getSheetAt(0);
@@ -188,7 +194,7 @@ public class RunPessoaJuridica
                     Row row = rowIterator.next();
                     // atualiza opro
                     progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetAntigo.getLastRowNum()) + " da planilha nova");
-                    PessoaJuridica at = new PessoaJuridica();
+                    TelefonePessoa at = new TelefonePessoa();
                     at.setExcelRowNumber(row.getRowNum());
                     
                     for (Integer index = 0; index < header.size(); index++)
@@ -227,11 +233,11 @@ public class RunPessoaJuridica
                     dadosNovo.add(at);
                 }
                 
-                Iterator<PessoaJuridica> iterator = dadosAntigo.iterator();
+                Iterator<TelefonePessoa> iterator = dadosAntigo.iterator();
                 while (iterator.hasNext())
                 {
                     // Pega o objeto com os dados da planilha antiga
-                    PessoaJuridica old = iterator.next();
+                    TelefonePessoa old = iterator.next();
                     // faz um loop em todos os dados da planilha nova para verificar se encontra
                     // o registro da planilha antiga
                     boolean indicaMigrado = false;
@@ -239,13 +245,13 @@ public class RunPessoaJuridica
                     {
                         
                         // verifica se o item da antiga é o mesmo da nova a fim de fazer a comparação
-                        if (old.getString(ColunaChave).trim().toLowerCase().equals(dadosNovo.get(index).getString(ColunaChave).trim().toLowerCase()))
+                        if (old.getNumDocumento().trim().toLowerCase().equals(dadosNovo.get(index).getNumDocumento().trim().toLowerCase()))
                         {
                            // Encontrado o registro da versão nova a ser comparado
                            // Inicamos a comparacao
                             indicaMigrado = true;
                             Boolean successMigrate = true;
-                            PessoaJuridica neww = dadosNovo.get(index);
+                            TelefonePessoa neww = dadosNovo.get(index);
                             // laço no header para pegar os campos a serem comparados
                             for (Integer a = 0; a < header.size(); a++)
                             {
@@ -328,14 +334,14 @@ public class RunPessoaJuridica
         
     }
     
-    private boolean comparaIgualdade(String columnName, PessoaJuridica a, PessoaJuridica b)  
+    private boolean comparaIgualdade(String columnName, TelefonePessoa a, TelefonePessoa b)  
     {
 
        return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
 
     }
     
-    private boolean comparaReferencia(String columnName, PessoaJuridica a, PessoaJuridica b)  
+    private boolean comparaReferencia(String columnName, TelefonePessoa a, TelefonePessoa b)  
     {
         boolean success = true;  
         
@@ -355,7 +361,6 @@ public class RunPessoaJuridica
             }
         String va = a.getString(columnName).trim().toLowerCase();
         String vn = b.getString(columnName).trim().toLowerCase();
-        //System.out.println("Valor AR " + arValorAntigo.getString(indice) + " Array Novo " + arValorNovo.getString(indice) + " Valor Antigo " + va + " Valor Novo" + vn);
         
         if (indice == -1)
             // Se não localizar o indice no valorantigo do template significa que o valor na planilha antiga não

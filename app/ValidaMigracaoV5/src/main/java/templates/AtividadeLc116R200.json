@@ -1,5 +1,6 @@
 {
   "templatename": "AtividadeLc116R200",
+  "colunachave": "codigolc116",
   "codigolc116": [
     {
       "tipocomparacao": "igualdade",
@@ -20,7 +21,7 @@
   "aliquotapadrao": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "decimal(3,2)",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }

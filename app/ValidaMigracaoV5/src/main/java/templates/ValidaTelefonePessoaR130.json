@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaTelefonePessoaR130",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
@@ -25,14 +26,16 @@
         "com",
         "fax",
         "rec",
-        "res"
+        "res",
+        ""
       ],
       "valornovo": [
         "com",
         "com",
         "fax",
         "rec",
-        "com"
+        "com",
+        ""
       ]
     }
   ]

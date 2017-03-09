@@ -23,11 +23,11 @@ public class PessoaJuridica implements InterfaceMigracao{
     private String nomeFantasia = null;
     private String situacaoPessoa = null;
     private String inscricaoEstadual = null;
-    private BigDecimal capitalSocial = null;
-    private Calendar dtAberturaEmpresa = null;
+    private String capitalSocial = null;
+    private String dtAberturaEmpresa = null;
     private String porteEmpresa = null;
-    private Integer indicaSubstitutoTributario = null;
-    private Integer indicaRegimeCaixa = null;
+    private String indicaSubstitutoTributario = null;
+    private String indicaRegimeCaixa = null;
     private ArrayList<String> log = new ArrayList<String>();
   
 
@@ -79,19 +79,19 @@ public class PessoaJuridica implements InterfaceMigracao{
         this.inscricaoEstadual = inscricaoEstadual;
     }
 
-    public BigDecimal getcapitalSocial() {
+    public String getcapitalSocial() {
         return capitalSocial;
     }
 
-    public void setcapitalSocial(BigDecimal capitalSocial) {
+    public void setcapitalSocial(String capitalSocial) {
         this.capitalSocial = capitalSocial;
     }
 
-    public Calendar getdtAberturaEmpresa() {
+    public String getdtAberturaEmpresa() {
         return dtAberturaEmpresa;
     }
 
-    public void setdtAberturaEmpresa(Calendar dtAberturaEmpresa) {
+    public void setdtAberturaEmpresa(String dtAberturaEmpresa) {
         this.dtAberturaEmpresa = dtAberturaEmpresa;
     }
 
@@ -103,19 +103,19 @@ public class PessoaJuridica implements InterfaceMigracao{
         this.porteEmpresa = porteEmpresa;
     }
 
-    public Integer getindicaSubstitutoTributario() {
+    public String getindicaSubstitutoTributario() {
         return indicaSubstitutoTributario;
     }
 
-    public void setindicaSubstitutoTributario(Integer indicaSubstitutoTributario) {
+    public void setindicaSubstitutoTributario(String indicaSubstitutoTributario) {
         this.indicaSubstitutoTributario = indicaSubstitutoTributario;
     }
 
-    public Integer getindicaRegimeCaixa() {
+    public String getindicaRegimeCaixa() {
         return indicaRegimeCaixa;
     }
 
-    public void setindicaRegimeCaixa(Integer indicaRegimeCaixa) {
+    public void setindicaRegimeCaixa(String indicaRegimeCaixa) {
         this.indicaRegimeCaixa = indicaRegimeCaixa;
     }
    
@@ -134,10 +134,7 @@ public class PessoaJuridica implements InterfaceMigracao{
     {
         // concatena todas as propriedades em uma string (Somente os campos que existem no template)
         return  numDocumento + tipoPessoa + razaoSocial + nomeFantasia + situacaoPessoa + inscricaoEstadual +
-                (new DecimalFormat("#0.##").format(capitalSocial)) + 
-                (new SimpleDateFormat("dd/MM/yyyy").format(dtAberturaEmpresa)) + 
-                porteEmpresa + (new DecimalFormat("#0.##").format(indicaSubstitutoTributario)) +
-                (new DecimalFormat("#0.##").format(indicaRegimeCaixa));
+                capitalSocial + dtAberturaEmpresa + porteEmpresa + indicaSubstitutoTributario + indicaRegimeCaixa;
     }
 
     @Override
@@ -175,23 +172,65 @@ public class PessoaJuridica implements InterfaceMigracao{
                 ret = inscricaoEstadual;
                 break;
             case "capitalsocial":
-                ret = (new DecimalFormat("#0.##").format(capitalSocial));
+                ret = capitalSocial;
                 break;
             case "dtaberturaempresa":
-                ret = (new SimpleDateFormat("dd/MM/yyyy").format(dtAberturaEmpresa));
+                ret = dtAberturaEmpresa;
                 break;
             case "porteempresa":
                 ret = porteEmpresa;
                 break;
             case "indicasubstitutotributario":
-                ret = (new DecimalFormat("#0.##").format(indicaSubstitutoTributario));
+                ret = indicaSubstitutoTributario;
                 break;
             case "indicaregimecaixa":
-                ret = (new DecimalFormat("#0.##").format(indicaRegimeCaixa));
+                ret = indicaRegimeCaixa;
                 break;
         }
         
         return ret;
+    }
+    
+    @Override
+    public void setString(String columnName, String value) {
+       
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "tipopessoa":
+                this.tipoPessoa = value;
+                break;
+            case "razaosocial":
+                this.razaoSocial = value;
+                break;
+            case "nomefantasia":
+                this.nomeFantasia = value;
+                break;
+            case "situacaopessoa":
+                this.situacaoPessoa = value;
+                break;
+            case "inscricaoestadual":
+                this.inscricaoEstadual = value;
+                break;
+            case "capitalsocial":
+                this.capitalSocial = value;
+                break;
+            case "dtaberturaempresa":
+                this.dtAberturaEmpresa = value;
+                break;
+            case "porteempresa":
+                this.porteEmpresa = value;
+                break;
+            case "indicasubstitutotributario":
+                this.indicaSubstitutoTributario = value;
+                break;
+            case "indicaregimecaixa":
+                this.indicaRegimeCaixa = value;
+                break;
+        }
     }
 
        

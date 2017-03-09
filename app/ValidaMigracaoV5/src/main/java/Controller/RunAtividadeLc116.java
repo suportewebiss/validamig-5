@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -19,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -35,18 +36,20 @@ public class RunAtividadeLc116
     private ArrayList<AtividadeLc116> dadosAntigo = new ArrayList<AtividadeLc116>();
     private ArrayList<AtividadeLc116> dadosNovo = new ArrayList<AtividadeLc116>();
     private JLabel progress;
+    private String ColunaChave;
     JSONObject template;
     XSSFWorkbook oldWorkbook;
     XSSFWorkbook newWorkbook;
     public RunAtividadeLc116(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
     {
         this.progress = progress;
+        ColunaChave = template.getString("colunachave");
         // Prepara um arraylist para armazenar o indice de cada coluna
         Iterator<?> keys = template.keys();
         while( keys.hasNext() ) {
             String key = ((String)keys.next()).toLowerCase();
             // Insere os nomes dos headers
-            if (! key.equals("templatename"))
+            if (! key.equals("templatename") && !key.equals("colunachave")) 
                 header.add(new Header(key));
         }
         
@@ -139,27 +142,36 @@ public class RunAtividadeLc116
                         Integer columnPos = header.get(index).getColumnNumber();
                         String columnName = header.get(index).getColumnName().toLowerCase();
                         String value  = null;
-                        switch(columnName)
+                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
+                        
+                        switch(typeCell.name())
                         {
-                            case "codigolc116":
+                            case "_NONE":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setCodigoLc116(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "descricaoatividade":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BLANK":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setDescricaoAtividade(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "aliquotapadrao":
-                                double v = row.getCell(columnPos).getNumericCellValue();
-                                BigDecimal aliquota = new BigDecimal(v);
-                                at.setAliquotaPadrao(aliquota);
+                            case "BOOLEAN":
+                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
+                                at.setString(columnName, value);
                                 break;
-                                
+                            case "NUMERIC":   
+                                DataFormatter df = new DataFormatter();
+                                value = df.formatCellValue(row.getCell(columnPos));
+                                at.setString(columnName, value);
+                                break;
+                            case "STRING":                             
+                                value = row.getCell(columnPos).getStringCellValue();
+                                at.setString(columnName, value);
+                                break;       
                         }
                     }
                     dadosAntigo.add(at);
                 }
+                
                 
                  // PRCESSA SHEET NOVA
                 XSSFSheet sheetNova;
@@ -185,23 +197,31 @@ public class RunAtividadeLc116
                         Integer columnPos = header.get(index).getColumnNumber();
                         String columnName = header.get(index).getColumnName().toLowerCase();
                         String value  = null;
-                        switch(columnName)
+                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
+                        
+                        switch(typeCell.name())
                         {
-                            case "codigolc116":
+                            case "_NONE":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setCodigoLc116(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "descricaoatividade":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BLANK":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setDescricaoAtividade(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "aliquotapadrao":
-                                double v = row.getCell(columnPos).getNumericCellValue();
-                                BigDecimal aliquota = new BigDecimal(v);
-                                at.setAliquotaPadrao(aliquota);
+                            case "BOOLEAN":
+                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
+                                at.setString(columnName, value);
                                 break;
-                                
+                            case "NUMERIC":    
+                                DataFormatter df = new DataFormatter();
+                                value = df.formatCellValue(row.getCell(columnPos));
+                                at.setString(columnName, value);
+                                break;
+                            case "STRING":                             
+                                value = row.getCell(columnPos).getStringCellValue();
+                                at.setString(columnName, value);
+                                break;        
                         }
                     }
                     dadosNovo.add(at);
@@ -214,14 +234,16 @@ public class RunAtividadeLc116
                     AtividadeLc116 old = iterator.next();
                     // faz um loop em todos os dados da planilha nova para verificar se encontra
                     // o registro da planilha antiga
+                    boolean indicaMigrado = false;
                     for (Integer index = 0; index < dadosNovo.size(); index++ )
                     {
                         
                         // verifica se o item da antiga é o mesmo da nova a fim de fazer a comparação
-                        if (old.getCodigoLc116().trim().toLowerCase().equals(dadosNovo.get(index).getCodigoLc116().trim().toLowerCase()))
+                        if (old.getString(ColunaChave).trim().toLowerCase().equals(dadosNovo.get(index).getString(ColunaChave).trim().toLowerCase()))
                         {
                            // Encontrado o registro da versão nova a ser comparado
                            // Inicamos a comparacao
+                            indicaMigrado = true;
                             Boolean successMigrate = true;
                             AtividadeLc116 neww = dadosNovo.get(index);
                             // laço no header para pegar os campos a serem comparados
@@ -232,7 +254,7 @@ public class RunAtividadeLc116
                                 JSONArray arrayJsonParams =  template.getJSONArray(columnName);
                                 JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
                                 String comparisonType = jsonParams.getString("tipocomparacao");
-                                String messageLog = null;
+                              //  String messageLog = null;
                                 
                                 // Verifica o tipo de comparação que irá ser feita
                                 
@@ -263,6 +285,8 @@ public class RunAtividadeLc116
                             break;
                         }
                     }
+                    if (indicaMigrado == false)
+                        old.addLog("Linha "+ String.valueOf( old.getExcelRowNumber()) + "; Não Migrado");
                 }
                 
                 JFrame parentFrame = new JFrame();
@@ -306,32 +330,45 @@ public class RunAtividadeLc116
     
     private boolean comparaIgualdade(String columnName, AtividadeLc116 a, AtividadeLc116 b)  
     {
-        boolean success = true;  
-        
-        switch (columnName.toLowerCase())
-        {
-            case "codigolc116":
-                    // success = verdadeiro ou falso
-                    success = a.getCodigoLc116().trim().toLowerCase().equals(b.getCodigoLc116().trim().toLowerCase());
-                break;
-            case "descricaoatividade":
-                    // success = verdadeiro ou falso
-                    success = a.getDescricaoAtividade().trim().toLowerCase().equals(b.getDescricaoAtividade().trim().toLowerCase());
-                break;
-            case "aliquotapadrao":
-                // compareTo retorna -1 quando um é menos; 0 quando são iguais e 1 quando um é maior
-                Integer compare = a.getAliquotaPadrao().compareTo(b.getAliquotaPadrao());
-                if (compare != 0)
-                    success = false;
-                break;
-                
-        }
-        return success;
+
+       return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
+
     }
     
     private boolean comparaReferencia(String columnName, AtividadeLc116 a, AtividadeLc116 b)  
     {
         boolean success = true;  
+        
+        // Obtem do template um array para o valorantigo e outro array para o valornovo
+        JSONArray arrayJsonParams =  template.getJSONArray(columnName);
+        JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
+        JSONArray arValorAntigo = jsonParams.getJSONArray("valorantigo");
+        JSONArray arValorNovo = jsonParams.getJSONArray("valornovo");
+        
+        // localiza em qual indice do array antigo o valor da planilha está
+        Integer indice = -1;
+        for (Integer i = 0; i < arValorAntigo.length(); i++)
+            if (arValorAntigo.getString(i).toLowerCase().equals(a.getString(columnName).trim().toLowerCase()))
+            {
+                indice = i;
+                break;
+            }
+        String va = a.getString(columnName).trim().toLowerCase();
+        String vn = b.getString(columnName).trim().toLowerCase();
+        
+        if (indice == -1)
+            // Se não localizar o indice no valorantigo do template significa que o valor na planilha antiga não
+           // foi especificado no template
+            success = false;
+        else
+        {
+            // pega o valor da planilha nova e compara com o valornovo do template
+            if ( b.getString(columnName).trim().toLowerCase().equals(arValorNovo.getString(indice).toLowerCase() ) )
+                success = true;
+            else
+                success = false;
+        }
+        
         
         return success;   
     }
