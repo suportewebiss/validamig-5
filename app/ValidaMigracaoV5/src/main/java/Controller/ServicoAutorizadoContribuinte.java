@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author allanfraga
  */
-public class ValidaServicoAutorizadoContribuinte implements InterfaceMigracao {
+public class ServicoAutorizadoContribuinte implements InterfaceMigracao {
     private ArrayList<String> log = new ArrayList<String>();
     private Integer excelRowNumber = null;
     private String numDocumento = null;
@@ -75,5 +75,47 @@ public class ValidaServicoAutorizadoContribuinte implements InterfaceMigracao {
     {
         // concatena todas as propriedades em uma string (Somente os campos que existem no template)
         return  numDocumento + inscricao + codigoLc116 + aliquota;
+    }
+
+    @Override
+    public String getString(String columnName) {
+        String ret = null;
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+                ret = numDocumento;
+                break;
+            case "inscricao":
+                ret = inscricao;
+                break;
+            case "codigolc116":
+                ret = codigoLc116;
+                break;
+            case "aliquota":
+                ret = aliquota;
+                break;
+        }
+        
+        return ret;
+    }
+
+    @Override
+    public void setString(String columnName, String value) {
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "inscricao":
+                this.inscricao = value;
+                break;
+            case "codigolc116":
+                this.codigoLc116 = value;
+                break;
+            case "aliquota":
+                this.aliquota = value;
+                break;    
+        }
     }
 }

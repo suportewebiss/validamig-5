@@ -28,19 +28,19 @@ import org.json.JSONObject;
 
 /**
  *
- * @author vinicius
+ * @author moises
  */
-public class RunContadorContribuinte 
+public class RunAtividadeEconomicaPj 
 {
     private ArrayList<Header> header = new ArrayList<Header>();
-    private ArrayList<ContadorContribuinte> dadosAntigo = new ArrayList<ContadorContribuinte>();
-    private ArrayList<ContadorContribuinte> dadosNovo = new ArrayList<ContadorContribuinte>();
+    private ArrayList<AtividadeEconomicaPj> dadosAntigo = new ArrayList<AtividadeEconomicaPj>();
+    private ArrayList<AtividadeEconomicaPj> dadosNovo = new ArrayList<AtividadeEconomicaPj>();
     private JLabel progress;
     private String ColunaChave;
     JSONObject template;
     XSSFWorkbook oldWorkbook;
     XSSFWorkbook newWorkbook;
-    public RunContadorContribuinte(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
+    public RunAtividadeEconomicaPj(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
     {
         this.progress = progress;
         ColunaChave = template.getString("colunachave");
@@ -60,7 +60,7 @@ public class RunContadorContribuinte
             oldWorkbook = new XSSFWorkbook(streamOldFile);
             newWorkbook = new XSSFWorkbook(streamNewFile);
         } catch (IOException ex) {
-            Logger.getLogger(RunContadorContribuinte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RunAtividadeEconomicaPj.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -133,7 +133,7 @@ public class RunContadorContribuinte
                     Row row = rowIterator.next();
                     // atualiza opro
                     progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetAntigo.getLastRowNum()) + " da planilha antiga" );
-                    ContadorContribuinte at = new ContadorContribuinte();
+                    AtividadeEconomicaPj at = new AtividadeEconomicaPj();
                     at.setExcelRowNumber(row.getRowNum());
                     
                     for (Integer index = 0; index < header.size(); index++)
@@ -188,7 +188,7 @@ public class RunContadorContribuinte
                     Row row = rowIterator.next();
                     // atualiza opro
                     progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetAntigo.getLastRowNum()) + " da planilha nova");
-                    ContadorContribuinte at = new ContadorContribuinte();
+                    AtividadeEconomicaPj at = new AtividadeEconomicaPj();
                     at.setExcelRowNumber(row.getRowNum());
                     
                     for (Integer index = 0; index < header.size(); index++)
@@ -227,11 +227,11 @@ public class RunContadorContribuinte
                     dadosNovo.add(at);
                 }
                 
-                Iterator<ContadorContribuinte> iterator = dadosAntigo.iterator();
+                Iterator<AtividadeEconomicaPj> iterator = dadosAntigo.iterator();
                 while (iterator.hasNext())
                 {
                     // Pega o objeto com os dados da planilha antiga
-                    ContadorContribuinte old = iterator.next();
+                    AtividadeEconomicaPj old = iterator.next();
                     // faz um loop em todos os dados da planilha nova para verificar se encontra
                     // o registro da planilha antiga
                     boolean indicaMigrado = false;
@@ -245,7 +245,7 @@ public class RunContadorContribuinte
                            // Inicamos a comparacao
                             indicaMigrado = true;
                             Boolean successMigrate = true;
-                            ContadorContribuinte neww = dadosNovo.get(index);
+                            AtividadeEconomicaPj neww = dadosNovo.get(index);
                             // laço no header para pegar os campos a serem comparados
                             for (Integer a = 0; a < header.size(); a++)
                             {
@@ -328,14 +328,14 @@ public class RunContadorContribuinte
         
     }
     
-    private boolean comparaIgualdade(String columnName, ContadorContribuinte a, ContadorContribuinte b)  
+    private boolean comparaIgualdade(String columnName, AtividadeEconomicaPj a, AtividadeEconomicaPj b)  
     {
 
        return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
 
     }
     
-    private boolean comparaReferencia(String columnName, ContadorContribuinte a, ContadorContribuinte b)  
+    private boolean comparaReferencia(String columnName, AtividadeEconomicaPj a, AtividadeEconomicaPj b)  
     {
         boolean success = true;  
         

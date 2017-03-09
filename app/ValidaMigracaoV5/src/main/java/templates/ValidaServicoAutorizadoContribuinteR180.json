@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaServicoAutorizadoContribuinteR180",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
@@ -27,7 +28,7 @@
   "aliquota": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "decimal(14,2)",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }

@@ -5,20 +5,24 @@
  */
 package Controller;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import javax.swing.JLabel;
+import org.json.JSONObject;
 
 /**
  *
  * @author allanfraga
  */
-public class ValidaAtividadeEconomicaPj implements InterfaceMigracao {
+public class AtividadeEconomicaPj implements InterfaceMigracao {
     private ArrayList<String> log = new ArrayList<String>();
     private Integer excelRowNumber = null;
     private String numDocumento = null;
     private String cnae = null;
     private String descricaoCnae = null;
-    private Integer indicaPrincipal = null;
+    private String indicaPrincipal = null;
 
+   
     public String getNumDocumento() {
         return numDocumento;
     }
@@ -43,11 +47,11 @@ public class ValidaAtividadeEconomicaPj implements InterfaceMigracao {
         this.descricaoCnae = descricaoCnae;
     }
 
-    public Integer getIndicaPrincipal() {
+    public String getIndicaPrincipal() {
         return indicaPrincipal;
     }
 
-    public void setIndicaPrincipal(Integer indicaPrincipal) {
+    public void setIndicaPrincipal(String indicaPrincipal) {
         this.indicaPrincipal = indicaPrincipal;
     }
     
@@ -74,7 +78,49 @@ public class ValidaAtividadeEconomicaPj implements InterfaceMigracao {
     public String toString()
     {
         // concatena todas as propriedades em uma string (Somente os campos que existem no template)
-        return  numDocumento + cnae + descricaoCnae + String.valueOf(indicaPrincipal);
+        return  numDocumento + cnae + descricaoCnae + indicaPrincipal;
+    }
+
+    @Override
+    public String getString(String columnName) {
+        String ret = null;
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+                ret = numDocumento;
+                break;
+            case "cnae":
+                ret = cnae;
+                break;
+            case "descricaocnae":
+                ret = descricaoCnae;
+                break;
+            case "indicaprincipal":
+                ret = indicaPrincipal;
+                break;    
+        }
+        
+        return ret;
+    }
+
+    @Override
+    public void setString(String columnName, String value) {
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "cnae":
+                this.cnae = value;
+                break;
+            case "descricaocnae":
+                this.descricaoCnae = value;
+                break;
+            case "indicaprincipal":
+                this.indicaPrincipal = value;
+                break;
+        }
     }
             
 }

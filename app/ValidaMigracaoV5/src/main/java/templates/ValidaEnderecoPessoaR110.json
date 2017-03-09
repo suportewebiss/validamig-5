@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaEnderecoPessoaR110",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",

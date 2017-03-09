@@ -13,12 +13,12 @@ import java.util.ArrayList;
  *
  * @author allanfraga
  */
-public class ValidaSocioPessoaJuridica implements InterfaceMigracao {
+public class SocioPessoaJuridica implements InterfaceMigracao {
     private ArrayList<String> log = new ArrayList<String>();
     private Integer excelRowNumber = null;
     private String numDocumento = null;
     private String numDocumentoSocio = null;
-    private BigDecimal prcParticipacao = null;
+    private String prcParticipacao = null;
 
     public String getNumDocumento() {
         return numDocumento;
@@ -36,11 +36,11 @@ public class ValidaSocioPessoaJuridica implements InterfaceMigracao {
         this.numDocumentoSocio = numDocumentoSocio;
     }
 
-    public BigDecimal getPrcParticipacao() {
+    public String getPrcParticipacao() {
         return prcParticipacao;
     }
 
-    public void setPrcParticipacao(BigDecimal prcParticipacao) {
+    public void setPrcParticipacao(String prcParticipacao) {
         this.prcParticipacao = prcParticipacao;
     }
     
@@ -67,7 +67,42 @@ public class ValidaSocioPessoaJuridica implements InterfaceMigracao {
     public String toString()
     {
         // concatena todas as propriedades em uma string (Somente os campos que existem no template)
-        return  numDocumento + numDocumentoSocio + 
-                (new DecimalFormat("#0.##").format(prcParticipacao)).toString();
+        return  numDocumento + numDocumentoSocio + prcParticipacao;
+    }
+
+    @Override
+    public String getString(String columnName) {
+        String ret = null;
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+                ret = numDocumento;
+                break;
+            case "numdocumentosocio":
+                ret = numDocumentoSocio;
+                break;
+            case "prcparticipacao":
+                ret = prcParticipacao;
+                break;
+        }
+        
+        return ret;
+    }
+
+    @Override
+    public void setString(String columnName, String value) {
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "numdocumentosocio":
+                this.numDocumentoSocio = value;
+                break;
+            case "prcparticipacao":
+                this.prcParticipacao = value;
+                break;
+        }
     }
 }
