@@ -5,20 +5,18 @@
  */
 package Controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  *
  * @author allanfraga
  */
-public class ValidaPessoaFisica implements InterfaceMigracao {
+public class PessoaFisica implements InterfaceMigracao {
     private ArrayList<String> log = new ArrayList<String>();
     private Integer excelRowNumber = null;
     private String numDocumento = null;
     private String nome = null;
-    private Calendar dtNascimento = null;
+    private String dtNascimento = null;
     private String numRegistroclasse = null;
     private String sociedadeClasse = null;
 
@@ -38,11 +36,11 @@ public class ValidaPessoaFisica implements InterfaceMigracao {
         this.nome = nome;
     }
 
-    public Calendar getDtNascimento() {
+    public String getDtNascimento() {
         return dtNascimento;
     }
 
-    public void setDtNascimento(Calendar dtNascimento) {
+    public void setDtNascimento(String dtNascimento) {
         this.dtNascimento = dtNascimento;
     }
 
@@ -82,12 +80,59 @@ public class ValidaPessoaFisica implements InterfaceMigracao {
          return excelRowNumber;
     }
     
+    @Override
     public String toString()
     {
         // concatena todas as propriedades em uma string (Somente os campos que existem no template)
-        return  numDocumento + nome + 
-                (new SimpleDateFormat("dd/MM/yyyy").format(dtNascimento)).toString() + 
-                numRegistroclasse + sociedadeClasse;
+        return  numDocumento + nome + dtNascimento + numRegistroclasse + sociedadeClasse;
+    }
+
+    @Override
+    public String getString(String columnName) {
+        String ret = null;
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+                ret = numDocumento;
+                break;
+            case "nome":
+                ret = nome;
+                break;
+            case "dtnascimento":
+                ret = dtNascimento;
+                break;
+            case "numregistroclasse":
+                ret = numRegistroclasse;
+                break;
+            case "sociedadeclasse":
+                ret = sociedadeClasse;
+                break;    
+        }
+        
+        return ret;
+    }
+
+    @Override
+    public void setString(String columnName, String value) {
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "nome":
+                this.nome = value;
+                break;
+            case "dtnascimento":
+                this.dtNascimento = value;
+                break;
+            case "numregistroclasse":
+                this.numRegistroclasse = value;
+                break;
+            case "sociedadeclasse":
+                this.sociedadeClasse = value;
+                break;
+        }
     }
     
 }
