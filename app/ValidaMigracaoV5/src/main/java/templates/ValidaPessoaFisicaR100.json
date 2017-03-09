@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaPessoaFisicaR100",
+  "colunachave": "numdocumento", 
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
@@ -19,7 +20,7 @@
   "dtnascimento": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "data",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
