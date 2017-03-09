@@ -87,5 +87,22 @@ public class ContadorContribuinte implements InterfaceMigracao {
         
         return ret;
     }
+    @Override
+    public void setString(String columnName, String value) {
+       
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "numdocumentocontador":
+                this.numDocumentoContador = value;
+                break;
+            case "inscricao":
+                this.inscricao = value;
+                break;
+        }
+    }
     
 }
