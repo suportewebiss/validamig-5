@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author allanfraga
  */
-public class ValidaEnderecoPessoa implements InterfaceMigracao {
+public class EnderecoPessoa implements InterfaceMigracao {
     private ArrayList<String> log = new ArrayList<String>();
     private Integer excelRowNumber = null;
     private String numDocumento = null;
@@ -102,5 +102,66 @@ public class ValidaEnderecoPessoa implements InterfaceMigracao {
     {
         // concatena todas as propriedades em uma string (Somente os campos que existem no template)
         return  numDocumento + logradouro + numero + complemento + bairro + cidade + uf;
+    }
+
+    @Override
+    public String getString(String columnName) {
+        String ret = null;
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+                ret = numDocumento;
+                break;
+            case "logradouro":
+                ret = logradouro;
+                break;
+            case "numero":
+                ret = numero;
+                break;
+            case "complemento":
+                ret = complemento;
+                break;
+            case "bairro":
+                ret = bairro;
+                break;
+            case "cidade":
+                ret = cidade;
+                break;
+            case "uf":
+                ret = uf;
+                break;
+        }
+        
+        return ret;
+    }
+
+    @Override
+    public void setString(String columnName, String value) {
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "logradouro":
+                this.logradouro = value;
+                break;
+            case "numero":
+                this.numero = value;
+                break;
+            case "complemento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.complemento = value;
+                break;
+            case "bairro":
+                this.bairro = value;
+                break;
+            case "cidade":
+                this.cidade = value;
+                break;    
+            case "uf":
+                this.uf = value;
+                break; 
+        }
     }
 }

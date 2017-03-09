@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -19,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author moises
+ * @author vinicius
  */
 public class RunContadorContribuinte 
 {
@@ -35,23 +36,24 @@ public class RunContadorContribuinte
     private ArrayList<ContadorContribuinte> dadosAntigo = new ArrayList<ContadorContribuinte>();
     private ArrayList<ContadorContribuinte> dadosNovo = new ArrayList<ContadorContribuinte>();
     private JLabel progress;
+    private String ColunaChave;
     JSONObject template;
     XSSFWorkbook oldWorkbook;
     XSSFWorkbook newWorkbook;
     public RunContadorContribuinte(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
     {
         this.progress = progress;
-        this.template = template;
+        ColunaChave = template.getString("colunachave");
         // Prepara um arraylist para armazenar o indice de cada coluna
-        Iterator<?> keys = this.template.keys();
+        Iterator<?> keys = template.keys();
         while( keys.hasNext() ) {
             String key = ((String)keys.next()).toLowerCase();
             // Insere os nomes dos headers
-            if (! key.equals("templatename"))
+            if (! key.equals("templatename") && !key.equals("colunachave")) 
                 header.add(new Header(key));
         }
         
-        
+        this.template = template;
         
        // Inicia as WorkBooks (Excel) através do ponteiro do stream
         try {
@@ -140,27 +142,36 @@ public class RunContadorContribuinte
                         Integer columnPos = header.get(index).getColumnNumber();
                         String columnName = header.get(index).getColumnName().toLowerCase();
                         String value  = null;
-                        switch(columnName)
+                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
+                        
+                        switch(typeCell.name())
                         {
-                            case "numdocumento":
+                            case "_NONE":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setNumDocumento(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "numdocumentocontador":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BLANK":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setNumDocumentoContador(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "inscricao":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BOOLEAN":
+                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
+                                at.setString(columnName, value);
+                                break;
+                            case "NUMERIC":   
+                                DataFormatter df = new DataFormatter();
+                                value = df.formatCellValue(row.getCell(columnPos));
+                                at.setString(columnName, value);
+                                break;
+                            case "STRING":                             
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setInscricao(value);
-                                break;
-                                
+                                at.setString(columnName, value);
+                                break;       
                         }
                     }
                     dadosAntigo.add(at);
                 }
+                
                 
                  // PRCESSA SHEET NOVA
                 XSSFSheet sheetNova;
@@ -186,23 +197,31 @@ public class RunContadorContribuinte
                         Integer columnPos = header.get(index).getColumnNumber();
                         String columnName = header.get(index).getColumnName().toLowerCase();
                         String value  = null;
-                        switch(columnName)
+                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
+                        
+                        switch(typeCell.name())
                         {
-                            case "numdocumento":
+                            case "_NONE":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setNumDocumento(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "numdocumentocontador":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BLANK":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setNumDocumentoContador(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "inscricao":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BOOLEAN":
+                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
+                                at.setString(columnName, value);
+                                break;
+                            case "NUMERIC":    
+                                DataFormatter df = new DataFormatter();
+                                value = df.formatCellValue(row.getCell(columnPos));
+                                at.setString(columnName, value);
+                                break;
+                            case "STRING":                             
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setInscricao(value);
-                                break;
-                                
+                                at.setString(columnName, value);
+                                break;        
                         }
                     }
                     dadosNovo.add(at);
@@ -215,14 +234,16 @@ public class RunContadorContribuinte
                     ContadorContribuinte old = iterator.next();
                     // faz um loop em todos os dados da planilha nova para verificar se encontra
                     // o registro da planilha antiga
+                    boolean indicaMigrado = false;
                     for (Integer index = 0; index < dadosNovo.size(); index++ )
                     {
                         
                         // verifica se o item da antiga é o mesmo da nova a fim de fazer a comparação
-                        if (old.getNumDocumento().trim().toLowerCase().equals(dadosNovo.get(index).getNumDocumento().trim().toLowerCase()))
+                        if (old.getString(ColunaChave).trim().toLowerCase().equals(dadosNovo.get(index).getString(ColunaChave).trim().toLowerCase()))
                         {
                            // Encontrado o registro da versão nova a ser comparado
                            // Inicamos a comparacao
+                            indicaMigrado = true;
                             Boolean successMigrate = true;
                             ContadorContribuinte neww = dadosNovo.get(index);
                             // laço no header para pegar os campos a serem comparados
@@ -233,7 +254,7 @@ public class RunContadorContribuinte
                                 JSONArray arrayJsonParams =  template.getJSONArray(columnName);
                                 JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
                                 String comparisonType = jsonParams.getString("tipocomparacao");
-                                String messageLog = null;
+                              //  String messageLog = null;
                                 
                                 // Verifica o tipo de comparação que irá ser feita
                                 
@@ -264,6 +285,8 @@ public class RunContadorContribuinte
                             break;
                         }
                     }
+                    if (indicaMigrado == false)
+                        old.addLog("Linha "+ String.valueOf( old.getExcelRowNumber()) + "; Não Migrado");
                 }
                 
                 JFrame parentFrame = new JFrame();
@@ -307,30 +330,45 @@ public class RunContadorContribuinte
     
     private boolean comparaIgualdade(String columnName, ContadorContribuinte a, ContadorContribuinte b)  
     {
-        boolean success = true;  
-        
-        switch (columnName.toLowerCase())
-        {
-            case "numdocumento":
-                    // success = verdadeiro ou falso
-                    success = a.getNumDocumento().trim().toLowerCase().equals(b.getNumDocumento().trim().toLowerCase());
-                break;
-            case "numdocumentocontador":
-                    // success = verdadeiro ou falso
-                    success = a.getNumDocumentoContador().trim().toLowerCase().equals(b.getNumDocumentoContador().trim().toLowerCase());
-                break;
-            case "inscricao":
-                    // success = verdadeiro ou falso
-                    success = a.getInscricao().trim().toLowerCase().equals(b.getInscricao().trim().toLowerCase());
-                break;
-                
-        }
-        return success;
+
+       return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
+
     }
     
     private boolean comparaReferencia(String columnName, ContadorContribuinte a, ContadorContribuinte b)  
     {
         boolean success = true;  
+        
+        // Obtem do template um array para o valorantigo e outro array para o valornovo
+        JSONArray arrayJsonParams =  template.getJSONArray(columnName);
+        JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
+        JSONArray arValorAntigo = jsonParams.getJSONArray("valorantigo");
+        JSONArray arValorNovo = jsonParams.getJSONArray("valornovo");
+        
+        // localiza em qual indice do array antigo o valor da planilha está
+        Integer indice = -1;
+        for (Integer i = 0; i < arValorAntigo.length(); i++)
+            if (arValorAntigo.getString(i).toLowerCase().equals(a.getString(columnName).trim().toLowerCase()))
+            {
+                indice = i;
+                break;
+            }
+        String va = a.getString(columnName).trim().toLowerCase();
+        String vn = b.getString(columnName).trim().toLowerCase();
+        
+        if (indice == -1)
+            // Se não localizar o indice no valorantigo do template significa que o valor na planilha antiga não
+           // foi especificado no template
+            success = false;
+        else
+        {
+            // pega o valor da planilha nova e compara com o valornovo do template
+            if ( b.getString(columnName).trim().toLowerCase().equals(arValorNovo.getString(indice).toLowerCase() ) )
+                success = true;
+            else
+                success = false;
+        }
+        
         
         return success;   
     }

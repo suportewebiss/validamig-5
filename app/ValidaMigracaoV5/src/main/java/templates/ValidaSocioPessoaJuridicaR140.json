@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaSocioPessoaJuridicaR140",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
@@ -19,7 +20,7 @@
   "prcparticipacao": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "decimal",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }

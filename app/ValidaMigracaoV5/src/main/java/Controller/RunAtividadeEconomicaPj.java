@@ -28,28 +28,28 @@ import org.json.JSONObject;
 
 /**
  *
- * @author allanfraga
+ * @author moises
  */
-public class RunTelefonePessoa 
+public class RunAtividadeEconomicaPj 
 {
     private ArrayList<Header> header = new ArrayList<Header>();
-    private ArrayList<TelefonePessoa> dadosAntigo = new ArrayList<TelefonePessoa>();
-    private ArrayList<TelefonePessoa> dadosNovo = new ArrayList<TelefonePessoa>();
+    private ArrayList<AtividadeEconomicaPj> dadosAntigo = new ArrayList<AtividadeEconomicaPj>();
+    private ArrayList<AtividadeEconomicaPj> dadosNovo = new ArrayList<AtividadeEconomicaPj>();
     private JLabel progress;
     private String ColunaChave;
     JSONObject template;
     XSSFWorkbook oldWorkbook;
     XSSFWorkbook newWorkbook;
-    public RunTelefonePessoa(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
+    public RunAtividadeEconomicaPj(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
     {
         this.progress = progress;
-        ColunaChave = template.getString("colunachave");       
+        ColunaChave = template.getString("colunachave");
         // Prepara um arraylist para armazenar o indice de cada coluna
         Iterator<?> keys = template.keys();
         while( keys.hasNext() ) {
             String key = ((String)keys.next()).toLowerCase();
             // Insere os nomes dos headers
-            if (! key.equals("templatename") && !key.equals("colunachave"))
+            if (! key.equals("templatename") && !key.equals("colunachave")) 
                 header.add(new Header(key));
         }
         
@@ -60,7 +60,7 @@ public class RunTelefonePessoa
             oldWorkbook = new XSSFWorkbook(streamOldFile);
             newWorkbook = new XSSFWorkbook(streamNewFile);
         } catch (IOException ex) {
-            Logger.getLogger(RunTelefonePessoa.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RunAtividadeEconomicaPj.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -133,7 +133,7 @@ public class RunTelefonePessoa
                     Row row = rowIterator.next();
                     // atualiza opro
                     progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetAntigo.getLastRowNum()) + " da planilha antiga" );
-                    TelefonePessoa at = new TelefonePessoa();
+                    AtividadeEconomicaPj at = new AtividadeEconomicaPj();
                     at.setExcelRowNumber(row.getRowNum());
                     
                     for (Integer index = 0; index < header.size(); index++)
@@ -172,6 +172,7 @@ public class RunTelefonePessoa
                     dadosAntigo.add(at);
                 }
                 
+                
                  // PRCESSA SHEET NOVA
                 XSSFSheet sheetNova;
                 sheetNova = newWorkbook.getSheetAt(0);
@@ -187,7 +188,7 @@ public class RunTelefonePessoa
                     Row row = rowIterator.next();
                     // atualiza opro
                     progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetAntigo.getLastRowNum()) + " da planilha nova");
-                    TelefonePessoa at = new TelefonePessoa();
+                    AtividadeEconomicaPj at = new AtividadeEconomicaPj();
                     at.setExcelRowNumber(row.getRowNum());
                     
                     for (Integer index = 0; index < header.size(); index++)
@@ -226,11 +227,11 @@ public class RunTelefonePessoa
                     dadosNovo.add(at);
                 }
                 
-                Iterator<TelefonePessoa> iterator = dadosAntigo.iterator();
+                Iterator<AtividadeEconomicaPj> iterator = dadosAntigo.iterator();
                 while (iterator.hasNext())
                 {
                     // Pega o objeto com os dados da planilha antiga
-                    TelefonePessoa old = iterator.next();
+                    AtividadeEconomicaPj old = iterator.next();
                     // faz um loop em todos os dados da planilha nova para verificar se encontra
                     // o registro da planilha antiga
                     boolean indicaMigrado = false;
@@ -238,13 +239,13 @@ public class RunTelefonePessoa
                     {
                         
                         // verifica se o item da antiga é o mesmo da nova a fim de fazer a comparação
-                        if (old.getNumDocumento().trim().toLowerCase().equals(dadosNovo.get(index).getNumDocumento().trim().toLowerCase()))
+                        if (old.getString(ColunaChave).trim().toLowerCase().equals(dadosNovo.get(index).getString(ColunaChave).trim().toLowerCase()))
                         {
                            // Encontrado o registro da versão nova a ser comparado
                            // Inicamos a comparacao
                             indicaMigrado = true;
                             Boolean successMigrate = true;
-                            TelefonePessoa neww = dadosNovo.get(index);
+                            AtividadeEconomicaPj neww = dadosNovo.get(index);
                             // laço no header para pegar os campos a serem comparados
                             for (Integer a = 0; a < header.size(); a++)
                             {
@@ -327,14 +328,14 @@ public class RunTelefonePessoa
         
     }
     
-    private boolean comparaIgualdade(String columnName, TelefonePessoa a, TelefonePessoa b)  
+    private boolean comparaIgualdade(String columnName, AtividadeEconomicaPj a, AtividadeEconomicaPj b)  
     {
 
        return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
 
     }
     
-    private boolean comparaReferencia(String columnName, TelefonePessoa a, TelefonePessoa b)  
+    private boolean comparaReferencia(String columnName, AtividadeEconomicaPj a, AtividadeEconomicaPj b)  
     {
         boolean success = true;  
         

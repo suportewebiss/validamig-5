@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaContribuinteIssqnR170",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
@@ -30,7 +31,8 @@
         "uniprofiss",
         "simples_normal",
         "simples_estimado",
-        "simples_uniprofiss"
+        "simples_uniprofiss",
+        ""
       ],
       "valornovo": [
         "estimado",
@@ -42,14 +44,15 @@
         "uniprofissional",
         "simples_nacional",
         "simples_nacional_estimado",
-        "VERIFICAR_DE_ACORDO_GODOY_NAO_EXISTE_SN_UNIPROFISS"
+        "VERIFICAR_DE_ACORDO_GODOY_NAO_EXISTE_SN_UNIPROFISS",
+        ""
       ]
     }
   ],
   "qtdprofissionais": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "inteiro",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -57,7 +60,7 @@
   "valorestimativa": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "decimal",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -65,7 +68,7 @@
   "valorfixo": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "decimal",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -73,7 +76,7 @@
   "dtinicioautorizacao": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "data",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -81,7 +84,7 @@
   "dtfimautorizacao": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "data",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -89,7 +92,7 @@
   "indicaavulso": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "inteiro",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -97,7 +100,7 @@
   "dtcadastro": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "data",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author guilhermereis
  */
-public class ValidaEmailPessoa implements InterfaceMigracao {
+public class EmailPessoa implements InterfaceMigracao {
     private Integer excelRowNumber = null;
     private String numDocumento = null;
     private String emailPessoa = null;
@@ -57,5 +57,37 @@ public class ValidaEmailPessoa implements InterfaceMigracao {
     public String toString()
     {
        return numDocumento + emailPessoa; 
+    }
+
+    @Override
+    public String getString(String columnName) {
+        String ret = null;
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+                ret = numDocumento;
+                break;
+            case "emailpessoa":
+                ret = emailPessoa;
+                break;
+            
+        }
+        
+        return ret;
+    }
+
+    @Override
+    public void setString(String columnName, String value) {
+        switch(columnName.toLowerCase())
+        {
+            case "numdocumento":
+               // this.numDocumento = Integer.parseInt(value);
+                this.numDocumento = value;
+                break;
+            case "emailpessoa":
+                this.emailPessoa = value;
+                break;
+            
+        }
     }
 }

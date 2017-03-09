@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaContadorContribuinteR190",
+  "colunachave": "numdocumento", 
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",

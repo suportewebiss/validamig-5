@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaAtividadeEconomicaPjR150",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
@@ -27,7 +28,7 @@
   "indicaprincipal": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "inteiro",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit",
       "valoresaceitos": [

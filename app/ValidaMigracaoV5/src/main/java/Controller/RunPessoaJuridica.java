@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author moises
+ * @author vinicius
  */
 public class RunPessoaJuridica 
 {

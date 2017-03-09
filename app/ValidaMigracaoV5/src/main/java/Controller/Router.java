@@ -74,6 +74,11 @@ public class Router {
             case "ValidaEnderecoPessoaR110": executeEnderecoPessoaR110(); break;
             case "ValidaSocioPessoaJuridicaR140": executeSocioPessoaJuridicaR140(); break;
             case "ValidaTelefonePessoaR130": executeTelefonePessoaR130(); break;
+            case "ValidaAtividadeEconomicaPjR150": executeAtividadeEconomicaPjR150(); break;
+            case "ValidaServicoAutorizadoContribuinteR180": executeServicoAutorizadoContribuinteR180(); break;
+            case "ValidaPessoaFisicaR100": executePessoaFisicaR100(); break;
+            case "ValidaContribuinteIssqnR170": executeContribuinteIssqnR170(); break;
+
         }
     }
     
@@ -122,6 +127,31 @@ public class Router {
     {
         
         RunTelefonePessoa run = new RunTelefonePessoa(oldFile, newFile, template, progress);
+      
+    }
+    private void executeAtividadeEconomicaPjR150() 
+    {
+        
+        RunAtividadeEconomicaPj run = new RunAtividadeEconomicaPj(oldFile, newFile, template, progress);
+    }
+    
+    private void executeServicoAutorizadoContribuinteR180() 
+    {
+        
+        RunServicoAutorizadoContribuinte run = new RunServicoAutorizadoContribuinte(oldFile, newFile, template, progress);
+    }
+    
+    private void executePessoaFisicaR100() 
+    {
+        
+        RunPessoaFisica run = new RunPessoaFisica(oldFile, newFile, template, progress);
+      
+    }
+    
+    private void executeContribuinteIssqnR170() 
+    {
+        
+        RunContribuinteIssqn run = new RunContribuinteIssqn(oldFile, newFile, template, progress);
       
     }
     
