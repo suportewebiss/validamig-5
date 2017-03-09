@@ -36,19 +36,20 @@ public class RunTelefonePessoa
     private ArrayList<TelefonePessoa> dadosAntigo = new ArrayList<TelefonePessoa>();
     private ArrayList<TelefonePessoa> dadosNovo = new ArrayList<TelefonePessoa>();
     private JLabel progress;
+    private String ColunaChave;
     JSONObject template;
     XSSFWorkbook oldWorkbook;
     XSSFWorkbook newWorkbook;
     public RunTelefonePessoa(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
     {
         this.progress = progress;
-               
+        ColunaChave = template.getString("colunachave");       
         // Prepara um arraylist para armazenar o indice de cada coluna
         Iterator<?> keys = template.keys();
         while( keys.hasNext() ) {
             String key = ((String)keys.next()).toLowerCase();
             // Insere os nomes dos headers
-            if (! key.equals("templatename"))
+            if (! key.equals("templatename") && !key.equals("colunachave"))
                 header.add(new Header(key));
         }
         

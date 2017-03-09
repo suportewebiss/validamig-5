@@ -70,6 +70,9 @@ public class Router {
             case "AtividadeLc116R200": executeAtividadeLc116(); break;
             case "ValidaPessoaJuridicaR101": executePessoaJuridicaR101(); break;
             case "ValidaContadorContribuinteR190": executeContadorContribuinteR190(); break;
+            case "ValidaEmailPessoaR120": executeEmailPessoaR120(); break;
+            case "ValidaEnderecoPessoaR110": executeEnderecoPessoaR110(); break;
+            case "ValidaSocioPessoaJuridicaR140": executeSocioPessoaJuridicaR140(); break;
             case "ValidaTelefonePessoaR130": executeTelefonePessoaR130(); break;
         }
     }
@@ -78,7 +81,7 @@ public class Router {
     public void executeAtividadeLc116()
     {
       
-        RunContadorContribuinte run = new RunContadorContribuinte(oldFile, newFile, template, progress);
+        RunAtividadeLc116 run = new RunAtividadeLc116(oldFile, newFile, template, progress);
         
     }
 
@@ -95,6 +98,26 @@ public class Router {
         RunContadorContribuinte run = new RunContadorContribuinte(oldFile, newFile, template, progress);
       
     }
+     
+    private void executeEmailPessoaR120() 
+    {
+        
+        RunEmailPessoa run = new RunEmailPessoa(oldFile, newFile, template, progress);
+      
+    }
+    private void executeEnderecoPessoaR110() 
+    {
+        
+        RunEnderecoPessoa run = new RunEnderecoPessoa(oldFile, newFile, template, progress);
+      
+    }
+    private void executeSocioPessoaJuridicaR140() 
+    {
+        
+        RunSocioPessoaJuridica run = new RunSocioPessoaJuridica(oldFile, newFile, template, progress);
+      
+    }
+    
     private void executeTelefonePessoaR130() 
     {
         

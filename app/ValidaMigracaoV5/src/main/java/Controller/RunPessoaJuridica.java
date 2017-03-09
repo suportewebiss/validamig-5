@@ -9,13 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -23,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -39,25 +36,24 @@ public class RunPessoaJuridica
     private ArrayList<PessoaJuridica> dadosAntigo = new ArrayList<PessoaJuridica>();
     private ArrayList<PessoaJuridica> dadosNovo = new ArrayList<PessoaJuridica>();
     private JLabel progress;
+    private String ColunaChave;
     JSONObject template;
     XSSFWorkbook oldWorkbook;
     XSSFWorkbook newWorkbook;
     public RunPessoaJuridica(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
     {
         this.progress = progress;
-        this.template = template;
+        ColunaChave = template.getString("colunachave");
         // Prepara um arraylist para armazenar o indice de cada coluna
-        //System.out.println("Tamanho: " + String.valueOf( template.length() )); System.exit(1);
-        Iterator<?> keys = this.template.keys();
+        Iterator<?> keys = template.keys();
         while( keys.hasNext() ) {
             String key = ((String)keys.next()).toLowerCase();
             // Insere os nomes dos headers
-            //System.out.println("chave " + key);
-            if (! key.equals("templatename"))
+            if (! key.equals("templatename") && !key.equals("colunachave")) 
                 header.add(new Header(key));
         }
-       // for(Integer i = 0 ; i < header.size(); i++)
-         //   System.out.println(header.get(i).getColumnName());
+        
+        this.template = template;
         
        // Inicia as WorkBooks (Excel) através do ponteiro do stream
         try {
@@ -130,8 +126,7 @@ public class RunPessoaJuridica
                 // passa para a segunda linha do arquivo, pois a primeira é header
                 if (rowIterator.hasNext())
                     rowIterator.next();
-                //System.out.println(" iterator " + String.valueOf(rowIterator.hasNext()));
-                //System.out.println(" teste " + String.valueOf(header.size()));
+               
                 // Executa o loop nas linhas da planilha
                 while (rowIterator.hasNext())
                 {
@@ -147,69 +142,36 @@ public class RunPessoaJuridica
                         Integer columnPos = header.get(index).getColumnNumber();
                         String columnName = header.get(index).getColumnName().toLowerCase();
                         String value  = null;
-                        //System.out.println("Nome da Coluna " + columnName);
-                        switch(columnName)
+                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
+                        
+                        switch(typeCell.name())
                         {
-                            case "numdocumento":
+                            case "_NONE":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                //System.out.println("peguei o nome " + value);
-                                at.setnumDocumento(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "tipopessoa":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BLANK":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.settipoPessoa(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "razaosocial":
+                            case "BOOLEAN":
+                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
+                                at.setString(columnName, value);
+                                break;
+                            case "NUMERIC":   
+                                DataFormatter df = new DataFormatter();
+                                value = df.formatCellValue(row.getCell(columnPos));
+                                at.setString(columnName, value);
+                                break;
+                            case "STRING":                             
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setrazaoSocial(value);
-                                break;
-                            case "nomefantasia":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setnomeFantasia(value);
-                                break;
-                            case "situacaopessoa":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setsituacaoPessoa(value);
-                                break;
-                            case "inscricaoestadual":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setinscricaoEstadual(value);
-                                break;
-                            case "capitalsocial":
-                                double capSoc = row.getCell(columnPos).getNumericCellValue();
-                                BigDecimal capSocial = new BigDecimal(capSoc);
-                                at.setcapitalSocial(capSocial);
-                                break;
-                            case "dtaberturaempresa":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                Calendar cal = Calendar.getInstance();
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/YYYY");
-                                {
-                                    try {
-                                        cal.setTime(sdf.parse(value));
-                                    } catch (ParseException ex) {
-                                        Logger.getLogger(RunPessoaJuridica.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }
-                                at.setdtAberturaEmpresa(cal);
-                                break;
-                            case "porteempresa":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setporteEmpresa(value);
-                                break;
-                            case "indicasubstitutotributario":
-                                Double valueint = row.getCell(columnPos).getNumericCellValue();
-                                at.setindicaSubstitutoTributario(valueint.intValue());
-                                break;
-                            case "indicaregimecaixa":
-                                Double regCai = row.getCell(columnPos).getNumericCellValue();
-                                at.setindicaRegimeCaixa(regCai.intValue());
-                                break;
+                                at.setString(columnName, value);
+                                break;       
                         }
                     }
                     dadosAntigo.add(at);
                 }
+                
                 
                  // PRCESSA SHEET NOVA
                 XSSFSheet sheetNova;
@@ -235,73 +197,35 @@ public class RunPessoaJuridica
                         Integer columnPos = header.get(index).getColumnNumber();
                         String columnName = header.get(index).getColumnName().toLowerCase();
                         String value  = null;
-                        //System.out.println("Coluna " + String.valueOf(columnPos) + " Nome " + columnName);
-                        switch(columnName)
+                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
+                        
+                        switch(typeCell.name())
                         {
-                            case "numdocumento":
+                            case "_NONE":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                System.out.println("Posição " + String.valueOf(columnPos) + " " + value);
-                                at.setnumDocumento(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "tipopessoa":
-                                 progress.setText(String.valueOf(columnPos));
+                            case "BLANK":
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.settipoPessoa(value);
+                                at.setString(columnName, value);
                                 break;
-                            case "razaosocial":
+                            case "BOOLEAN":
+                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
+                                at.setString(columnName, value);
+                                break;
+                            case "NUMERIC":    
+                                DataFormatter df = new DataFormatter();
+                                value = df.formatCellValue(row.getCell(columnPos));
+                                at.setString(columnName, value);
+                                break;
+                            case "STRING":                             
                                 value = row.getCell(columnPos).getStringCellValue();
-                                at.setrazaoSocial(value);
-                                break;
-                            case "nomefantasia":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setnomeFantasia(value);
-                                break;
-                            case "situacaopessoa":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setsituacaoPessoa(value);
-                                break;
-                            case "inscricaoestadual":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setinscricaoEstadual(value);
-                                break;
-                            case "capitalsocial":
-                                double capSoc = row.getCell(columnPos).getNumericCellValue();
-                                BigDecimal capSocial = new BigDecimal(capSoc);
-                                at.setcapitalSocial(capSocial);
-                                break;
-                            case "dtaberturaempresa":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                Calendar cal = Calendar.getInstance();
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/YYYY");
-                                {
-                                    try {
-                                        cal.setTime(sdf.parse(value));
-                                    } catch (ParseException ex) {
-                                        Logger.getLogger(RunPessoaJuridica.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }
-                                at.setdtAberturaEmpresa(cal);
-                                break;
-                            case "porteempresa":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setporteEmpresa(value);
-                                break;
-                            case "indicasubstitutotributario":
-                                Double valueint = row.getCell(columnPos).getNumericCellValue();
-                                at.setindicaSubstitutoTributario(valueint.intValue());
-                                break;
-                            case "indicaregimecaixa":
-                                Double regCai = row.getCell(columnPos).getNumericCellValue();
-                                at.setindicaRegimeCaixa(regCai.intValue());
-                                break;
-                                
+                                at.setString(columnName, value);
+                                break;        
                         }
                     }
                     dadosNovo.add(at);
                 }
-                
-                //for (Integer index2 = 0; index2 < dadosNovo.size(); index2++ )
-                    //System.out.println(dadosNovo.get(index2).getnumDocumento());
                 
                 Iterator<PessoaJuridica> iterator = dadosAntigo.iterator();
                 while (iterator.hasNext())
@@ -310,16 +234,16 @@ public class RunPessoaJuridica
                     PessoaJuridica old = iterator.next();
                     // faz um loop em todos os dados da planilha nova para verificar se encontra
                     // o registro da planilha antiga
+                    boolean indicaMigrado = false;
                     for (Integer index = 0; index < dadosNovo.size(); index++ )
                     {
-                        //System.out.println(old.getnumDocumento());
-                        //System.out.println(dadosNovo.get(index).getnumDocumento().trim().toLowerCase());
-                        // verifica se o item da antiga é o mesmo da nova a fim de fazer a comparação
                         
-                        if (old.getnumDocumento().trim().toLowerCase().equals(dadosNovo.get(index).getnumDocumento().trim().toLowerCase()))
+                        // verifica se o item da antiga é o mesmo da nova a fim de fazer a comparação
+                        if (old.getString(ColunaChave).trim().toLowerCase().equals(dadosNovo.get(index).getString(ColunaChave).trim().toLowerCase()))
                         {
                            // Encontrado o registro da versão nova a ser comparado
                            // Inicamos a comparacao
+                            indicaMigrado = true;
                             Boolean successMigrate = true;
                             PessoaJuridica neww = dadosNovo.get(index);
                             // laço no header para pegar os campos a serem comparados
@@ -330,7 +254,7 @@ public class RunPessoaJuridica
                                 JSONArray arrayJsonParams =  template.getJSONArray(columnName);
                                 JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
                                 String comparisonType = jsonParams.getString("tipocomparacao");
-                                String messageLog = null;
+                              //  String messageLog = null;
                                 
                                 // Verifica o tipo de comparação que irá ser feita
                                 
@@ -361,6 +285,8 @@ public class RunPessoaJuridica
                             break;
                         }
                     }
+                    if (indicaMigrado == false)
+                        old.addLog("Linha "+ String.valueOf( old.getExcelRowNumber()) + "; Não Migrado");
                 }
                 
                 JFrame parentFrame = new JFrame();
@@ -404,91 +330,46 @@ public class RunPessoaJuridica
     
     private boolean comparaIgualdade(String columnName, PessoaJuridica a, PessoaJuridica b)  
     {
-        boolean success = true;  
-        
-        switch (columnName.toLowerCase())
-        {
-            case "numdocumento":
-                    // success = verdadeiro ou falso
-                    success = a.getnumDocumento().trim().toLowerCase().equals(b.getnumDocumento().trim().toLowerCase());
-                break;
-            case "tipopessoa":
-                    // success = verdadeiro ou falso
-                    success = a.gettipoPessoa().trim().toLowerCase().equals(b.gettipoPessoa().trim().toLowerCase());
-                break;
-            case "razaosocial":
-                    // success = verdadeiro ou falso
-                    success = a.getrazaoSocial().trim().toLowerCase().equals(b.getrazaoSocial().trim().toLowerCase());
-                break;
-            case "nomefantasia":
-                    // success = verdadeiro ou falso
-                    success = a.getnomeFantasia().trim().toLowerCase().equals(b.getnomeFantasia().trim().toLowerCase());
-                break;
-            case "inscricaoestadual":
-                    // success = verdadeiro ou falso
-                    success = a.getinscricaoEstadual().trim().toLowerCase().equals(b.getinscricaoEstadual().trim().toLowerCase());
-                break;
-            case "capitalsocial":
-                // compareTo retorna -1 quando um é menos; 0 quando são iguais e 1 quando um é maior
-                Integer compare = a.getcapitalSocial().compareTo(b.getcapitalSocial());
-                if (compare != 0)
-                    success = false;
-                break;
-            case "dtaberturaempresa":
-                    // success = verdadeiro ou falso
-                    success = a.getdtAberturaEmpresa().equals(b.getdtAberturaEmpresa());
-                break;
-            case "indicasubstitutotributario":
-                // compareTo retorna -1 quando um é menos; 0 quando são iguais e 1 quando um é maior
-                Integer compareIndSubs = a.getindicaSubstitutoTributario().compareTo(b.getindicaSubstitutoTributario());
-                if (compareIndSubs != 0)
-                    success = false;
-                break; 
-            case "indicaregimecaixa":
-                // compareTo retorna -1 quando um é menos; 0 quando são iguais e 1 quando um é maior
-                Integer compareIndReg = a.getindicaRegimeCaixa().compareTo(b.getindicaRegimeCaixa());
-                if (compareIndReg != 0)
-                    success = false;
-                break;
-        }
-        return success;
+
+       return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
+
     }
     
     private boolean comparaReferencia(String columnName, PessoaJuridica a, PessoaJuridica b)  
     {
-        boolean success = true;
+        boolean success = true;  
         
-        switch (columnName.toLowerCase())
+        // Obtem do template um array para o valorantigo e outro array para o valornovo
+        JSONArray arrayJsonParams =  template.getJSONArray(columnName);
+        JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
+        JSONArray arValorAntigo = jsonParams.getJSONArray("valorantigo");
+        JSONArray arValorNovo = jsonParams.getJSONArray("valornovo");
+        
+        // localiza em qual indice do array antigo o valor da planilha está
+        Integer indice = -1;
+        for (Integer i = 0; i < arValorAntigo.length(); i++)
+            if (arValorAntigo.getString(i).toLowerCase().equals(a.getString(columnName).trim().toLowerCase()))
+            {
+                indice = i;
+                break;
+            }
+        String va = a.getString(columnName).trim().toLowerCase();
+        String vn = b.getString(columnName).trim().toLowerCase();
+        //System.out.println("Valor AR " + arValorAntigo.getString(indice) + " Array Novo " + arValorNovo.getString(indice) + " Valor Antigo " + va + " Valor Novo" + vn);
+        
+        if (indice == -1)
+            // Se não localizar o indice no valorantigo do template significa que o valor na planilha antiga não
+           // foi especificado no template
+            success = false;
+        else
         {
-            case "situacaopessoa":
-                // success = verdadeiro ou falso
-                
-                if((a.getsituacaoPessoa().trim().equals("ativo")) & (b.getsituacaoPessoa().trim().equals("ativa")))
-                    success = true;
-                else
-                if(((a.getsituacaoPessoa().trim().equals("baixado")) || (a.getsituacaoPessoa().trim().equals("inativo")) || (a.getsituacaoPessoa().trim().equals("não disponível")) || (a.getsituacaoPessoa().trim().equals("paralisado a revelia")) || (a.getsituacaoPessoa().trim().equals("Paralizado Temporariamente")) || (a.getsituacaoPessoa().trim().equals("Provisório")) || (a.getsituacaoPessoa().trim().equals("Suspenso"))) & (b.getsituacaoPessoa().trim().equals("baixada")))
-                    success = true;
-                else
-                    success = false;
-            break;
-            case "porteempresa":
-                if((a.getporteEmpresa().trim().equals("ge")) & (b.getporteEmpresa().trim().equals("gp")))
-                    success = true;
-                else
-                if(((a.getporteEmpresa().trim().equals("md")) || (a.getporteEmpresa().trim().equals("mg"))) & (b.getporteEmpresa().trim().equals("mp")))
-                    success = true;
-                else
-                if(((a.getporteEmpresa().trim().equals("me")) || (a.getporteEmpresa().trim().equals("nd"))) & (b.getporteEmpresa().trim().equals("me")))
-                    success = true;
-                else
-                if((a.getporteEmpresa().trim().equals("pe")) & (b.getporteEmpresa().trim().equals("epp")))
-                    success = true;
-                else
-                if((a.getporteEmpresa().trim().equals("mei")) & (b.getporteEmpresa().trim().equals("mei")))
-                    success = true;
-                else
-                    success = false;
+            // pega o valor da planilha nova e compara com o valornovo do template
+            if ( b.getString(columnName).trim().toLowerCase().equals(arValorNovo.getString(indice).toLowerCase() ) )
+                success = true;
+            else
+                success = false;
         }
+        
         
         return success;   
     }

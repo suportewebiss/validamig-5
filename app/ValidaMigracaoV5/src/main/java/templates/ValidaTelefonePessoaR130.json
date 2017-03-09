@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaTelefonePessoaR130",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",

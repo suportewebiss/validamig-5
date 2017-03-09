@@ -1,5 +1,6 @@
 {
   "templatename": "ValidaPessoaJuridicaR101",
+  "colunachave": "numdocumento",  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
@@ -54,7 +55,8 @@
         "paralisado a revelia",
         "Paralizado Temporariamente",
         "Provisório",
-        "Suspenso"
+        "Suspenso",
+        ""        
       ],
       "valornovo": [
         "ativa",
@@ -64,7 +66,8 @@
         "baixada",
         "baixada",
         "baixada",
-        "baixada"        
+        "baixada",
+        ""        
       ]
     }
   ],
@@ -79,7 +82,7 @@
   "capitalsocial": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "decimal(14,2)",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -87,7 +90,7 @@
   "dtaberturaempresa": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "Date",
+      "tipodado": "string",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -104,7 +107,8 @@
         "me",
         "nd",
         "pe",
-        "mei"
+        "mei",
+        ""        
       ],
       "valornovo": [
         "gp",
@@ -113,14 +117,15 @@
         "me",
         "me",        
         "epp",
-        "mei"        
+        "mei",
+        ""        
       ]
     }
   ],
   "indicasubstitutotributario": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "inteiro",
+      "tipodado": "string",
       "valoresaceitos": [
         "1",
         "0"
@@ -132,7 +137,7 @@
   "indicaregimecaixa": [
     {
       "tipocomparacao": "igualdade",
-      "tipodado": "inteiro",
+      "tipodado": "string",
       "valoresaceitos": [
         "1",
         "0"
