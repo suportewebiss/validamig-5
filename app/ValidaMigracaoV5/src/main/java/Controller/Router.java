@@ -67,7 +67,7 @@ public class Router {
     {
         switch(template.getString("templatename"))
         {
-            case "AtividadeLc116R200": executeAtividadeLc116(); break;
+          //  case "AtividadeLc116R200": executeAtividadeLc116(); break;
             case "ValidaPessoaJuridicaR101": executePessoaJuridicaR101(); break;
             case "ValidaContadorContribuinteR190": executeContadorContribuinteR190(); break;
             case "ValidaEmailPessoaR120": executeEmailPessoaR120(); break;
@@ -78,6 +78,7 @@ public class Router {
             case "ValidaServicoAutorizadoContribuinteR180": executeServicoAutorizadoContribuinteR180(); break;
             case "ValidaPessoaFisicaR100": executePessoaFisicaR100(); break;
             case "ValidaContribuinteIssqnR170": executeContribuinteIssqnR170(); break;
+            default: start(); break;
 
         }
     }
@@ -86,7 +87,7 @@ public class Router {
     public void executeAtividadeLc116()
     {
       
-        RunAtividadeLc116 run = new RunAtividadeLc116(oldFile, newFile, template, progress);
+        Runnable run = new Runnable(oldFile, newFile, template, progress);
         
     }
 
@@ -152,6 +153,13 @@ public class Router {
     {
         
         RunContribuinteIssqn run = new RunContribuinteIssqn(oldFile, newFile, template, progress);
+      
+    }
+    
+    private void start() 
+    {
+        
+       Runnable run = new Runnable(oldFile, newFile, template, progress);
       
     }
     

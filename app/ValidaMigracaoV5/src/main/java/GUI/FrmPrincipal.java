@@ -125,7 +125,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldTemplate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonTemplate))
-                .addGap(0, 100, Short.MAX_VALUE))
+                .addGap(0, 106, Short.MAX_VALUE))
         );
 
         jButtonValidar.setText("VALIDAR");
@@ -148,7 +148,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonValidar)
                         .addGap(42, 42, 42)
