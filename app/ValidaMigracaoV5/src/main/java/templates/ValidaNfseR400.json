@@ -225,7 +225,7 @@
       "valornovo": "inherit"
     }
   ],
-  "icentivofiscal": [
+  "incentivofiscal": [
     {
       "tipocomparacao": "igualdade",
       "valorantigo": "inherit",
@@ -488,13 +488,6 @@
     }
   ],
   "valorcofins": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "valorcredito": [
     {
       "tipocomparacao": "igualdade",
       "valorantigo": "inherit",
