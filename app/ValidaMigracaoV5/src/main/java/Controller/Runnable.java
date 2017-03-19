@@ -5,12 +5,23 @@
  */
 package Controller;
 
+import com.monitorjbl.xlsx.StreamingReader;
+import com.monitorjbl.xlsx.impl.StreamingCell;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -21,6 +32,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
@@ -30,21 +43,54 @@ import org.json.JSONObject;
  *
  * @author moises
  */
-public class Runnable {
+public class Runnable implements Observer {
     private ArrayList<Header> header = new ArrayList<Header>();
+    private ArrayList<Header> headerP1 = new ArrayList<Header>();
+    private ArrayList<Header> headerP2 = new ArrayList<Header>();
+    private boolean runningThreadP1 = false;
+    private boolean runningThreadP2 = false;
     private ArrayList<InterfaceMigracao> dadosAntigo;
     private ArrayList<InterfaceMigracao> dadosNovo;
     private JLabel progress;
     private ArrayList<String> colunaChave = new ArrayList<String>();
     private String templateName;
-    JSONObject template;
-    XSSFWorkbook oldWorkbook;
-    XSSFWorkbook newWorkbook;
-    public Runnable(FileInputStream streamOldFile, FileInputStream streamNewFile, JSONObject template, JLabel progress)
+    private JSONObject template;
+    private XSSFWorkbook oldWorkbook;
+    private XSSFWorkbook newWorkbook;
+    
+    
+    private static String TMP_DIRECTORY;
+    private static String FILE_LOG_NAME;
+    private FileOutputStream outputStream = null;
+    
+    public Runnable(String srcOldFile, String srcNewFile, String srcTemplate, JLabel progress)
     {
+        // Cria o diretório tmp
+        File f = new File(   System.getProperty("user.dir") + File.separator + "tmp"  );  
+        if (! f.exists())
+            f.mkdir();
+        
+        // seta o diretório tmp
+        Runnable.TMP_DIRECTORY = f.getAbsolutePath();
+        
+        
         this.dadosNovo = new ArrayList<InterfaceMigracao>();
         this.dadosAntigo = new ArrayList<InterfaceMigracao>();
         this.progress = progress;
+        
+        //*****
+         // Pega o nome do template
+        
+         progress.setText("Carregando arquivo de template...");
+        File templateFile = new File(srcTemplate);
+        try {
+             String txt = new String(Files.readAllBytes(templateFile.toPath()));
+             //System.out.println(txt);  
+             template =  new JSONObject(txt);
+        } catch (IOException ex) {
+            Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         // Como a coluna chave pode ser uma combinação
         // o trecho abaixo adicionará todos os campos chaves em um arraylist
@@ -64,7 +110,6 @@ public class Runnable {
                 colunaChave.add(ja.getString(i));
         }
         
-        // Pega o nome do template
         templateName = template.getString("templatename");
         // Prepara um arraylist para armazenar o indice de cada coluna
         Iterator<?> keys = template.keys();
@@ -77,310 +122,255 @@ public class Runnable {
         }
         
         this.template = template;
+        // ***********************
         
-       // Inicia as WorkBooks (Excel) através do ponteiro do stream
+        
+        
+        
+        //******
+        // cria um stream para um arquivo de log temporario
+        
+        File tmpFile = new File(Runnable.TMP_DIRECTORY + File.separator + "log.txt"  );                
         try {
-            oldWorkbook = new XSSFWorkbook(streamOldFile);
-            newWorkbook = new XSSFWorkbook(streamNewFile);
-        } catch (IOException ex) {
-            Logger.getLogger(RunTelefonePessoa.class.getName()).log(Level.SEVERE, null, ex);
+            outputStream =  new FileOutputStream(tmpFile);
+            Runnable.FILE_LOG_NAME = tmpFile.getAbsolutePath();
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível abrir um stream com o arquivo de log");
+            Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        setColumnIndexHeader();
+        progress.setText("Iniciando processamento...");
         
-        // verifica se alguma coluna do excel não foi lida para o header
-        boolean isHeaderFormated = true;
-        for (Integer i=0; i < header.size(); i++)
-        {
-          //  System.out.println( header.get(i).getColumnName() + ": " +  String.valueOf(  header.get(i).getColumnNumber()) );
-            if (header.get(i).getColumnNumber() == null)
-                isHeaderFormated = false;
+        ThreadExcelImport tRunnable = new ThreadExcelImport(templateName, srcOldFile, srcNewFile, header, colunaChave);
+        
+        
+      //  Observable.fromCallable(tRunnableOld);
+        tRunnable.addObserver(this);
+       
+        Thread thread = new Thread(tRunnable, "thread-importa-excel");
+        
+        
+       // teste(srcOldFile);
+        
+        try
+        {    
+            
+            thread.start();
+   
+        } catch(Exception e){
+           e.printStackTrace();
         }
-        
-        if (isHeaderFormated)
-            start();
-        else
-            JOptionPane.showMessageDialog(null, "Os cabeçalhos da planilha não seguem os nomes do template");
-    }
-    
-    
-    private void setColumnIndexHeader()
-    {
-        XSSFSheet sheetAntigo;
-        sheetAntigo = oldWorkbook.getSheetAt(0);
-        Iterator<Row> rowIterator = sheetAntigo.iterator();
-        Row row = null;
-        if (rowIterator.hasNext())
-            // Atribui para a variavel row a primeira linha da sheet
-            row = rowIterator.next();
-        Iterator<Cell> cellIterator = row.cellIterator();
-        for (Integer i=0; i < header.size(); i++)
-        {
-            while(cellIterator.hasNext())
-            {
-                Cell cell = (Cell) cellIterator.next();
-               // System.out.println(cell.getStringCellValue());
-                if ( cell.getStringCellValue().toLowerCase().equals(header.get(i).getColumnName())  )
-                    // Adiciona o numero da coluna ao header
-                    header.get(i).setColumnNumber(cell.getColumnIndex());
-                
-            }
-            cellIterator = row.cellIterator();
-        }
-    }
-    
-    
-    
-    private void start()
-    {
-        
-        progress.setText("Iniciando validação");
-        new Thread() {
-			
-            @Override
-            public void run() {
-               
-                // PRCESSA SHEET ANTIGA
-                XSSFSheet sheetAntigo;
-                sheetAntigo = oldWorkbook.getSheetAt(0);
-                Iterator<Row> rowIterator = sheetAntigo.iterator();
-                
-                // passa para a segunda linha do arquivo, pois a primeira é header
-                if (rowIterator.hasNext())
-                    rowIterator.next();
-               
-                // Executa o loop nas linhas da planilha
-                while (rowIterator.hasNext())
-                {
-                    Row row = rowIterator.next();
-                    // atualiza opro
-                    progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetAntigo.getLastRowNum()) + " da planilha antiga" );
-                    InterfaceMigracao at = Factory.getInstance(templateName);
-
-                    at.setExcelRowNumber(row.getRowNum());
-                    
-                    for (Integer index = 0; index < header.size(); index++)
-                    {
-                        // vai pegar o valor no excel de acordo com o header
-                        Integer columnPos = header.get(index).getColumnNumber();
-                        String columnName = header.get(index).getColumnName().toLowerCase();
-                        String value  = null;
-                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
-                        
-                        switch(typeCell.name())
-                        {
-                            case "_NONE":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setString(columnName, value);
-                                break;
-                            case "BLANK":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setString(columnName, value);
-                                break;
-                            case "BOOLEAN":
-                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
-                                at.setString(columnName, value);
-                                break;
-                            case "NUMERIC":   
-                                DataFormatter df = new DataFormatter();
-                                value = df.formatCellValue(row.getCell(columnPos));
-                                at.setString(columnName, value);
-                                break;
-                            case "STRING":                             
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setString(columnName, value);
-                                break;       
-                        }
-                    }
-                    dadosAntigo.add( at);
-                }
-                
-                 // PRCESSA SHEET NOVA
-                XSSFSheet sheetNova;
-                sheetNova = newWorkbook.getSheetAt(0);
-                rowIterator = sheetNova.iterator();
-                
-                // passa para a segunda linha do arquivo, pois a primeira é header
-                if (rowIterator.hasNext())
-                    rowIterator.next();
-               
-                // Executa o loop nas linhas da planilha
-                while (rowIterator.hasNext()   )
-                {
-                    Row row = rowIterator.next();
-
-                    // atualiza opro
-                    progress.setText("Carregando linha "+ String.valueOf(row.getRowNum()) + " de " + String.valueOf(sheetNova.getLastRowNum()) + " da planilha nova");
-                    InterfaceMigracao at = Factory.getInstance(template.getString("templatename"));
-                    at.setExcelRowNumber(row.getRowNum());
-                    
-                    for (Integer index = 0; index < header.size(); index++)
-                    {
-                        // vai pegar o valor no excel de acordo com o header
-                        Integer columnPos = header.get(index).getColumnNumber();
-                        String columnName = header.get(index).getColumnName().toLowerCase();
-                        String value  = null;
-                        CellType typeCell = row.getCell(columnPos).getCellTypeEnum();
-                        
-                        switch(typeCell.name())
-                        {
-                            case "_NONE":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setString(columnName, value);
-                                break;
-                            case "BLANK":
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setString(columnName, value);
-                                break;
-                            case "BOOLEAN":
-                                value = String.valueOf(row.getCell(columnPos).getBooleanCellValue());
-                                at.setString(columnName, value);
-                                break;
-                            case "NUMERIC":    
-                                DataFormatter df = new DataFormatter();
-                                value = df.formatCellValue(row.getCell(columnPos));
-                                at.setString(columnName, value);
-                                break;
-                            case "STRING":                             
-                                value = row.getCell(columnPos).getStringCellValue();
-                                at.setString(columnName, value);
-                                break;        
-                        }
-                    }
-                    dadosNovo.add(at);
-                }
-                
-                Iterator<InterfaceMigracao> iterator = dadosAntigo.iterator();
-                while (iterator.hasNext())
-                {
-                    // Pega o objeto com os dados da planilha antiga
-                    InterfaceMigracao old = iterator.next();
-                   
-                    // faz um loop em todos os dados da planilha nova para verificar se encontra
-                    // o registro da planilha antiga
-                    boolean indicaMigrado = false;
-                    for (Integer index = 0; index < dadosNovo.size(); index++ )
-                    {
-                         progress.setText("Comparando linha "+ String.valueOf(old.getExcelRowNumber()) + " da planilha antiga com linha " + String.valueOf(dadosNovo.get(index).getExcelRowNumber() ) + " da planilha nova");
-                        boolean localizado = true;
-                        
-                        for(Integer x = 0; x < colunaChave.size(); x++ )
-                            if (! old.getString(colunaChave.get(x).toLowerCase()).trim().toLowerCase().equals( dadosNovo.get(index).getString(colunaChave.get(x).toLowerCase()).trim().toLowerCase()   )  )
-                            {
-                                localizado = false;
-                                break;
-                            }
-                        
-                        // verifica se o item da antiga é o mesmo da nova a fim de fazer a comparação
-                        if (localizado)
-                        {
-                           // Encontrado o registro da versão nova a ser comparado
-                           // Inicamos a comparacao
-                            indicaMigrado = true;
-                            Boolean successMigrate = true;
-                            InterfaceMigracao neww = dadosNovo.get(index);
-                            // laço no header para pegar os campos a serem comparados
-                            for (Integer a = 0; a < header.size(); a++)
-                            {
-                                String columnName = header.get(a).getColumnName();
-                                //System.out.println(template.getJSONArray(columnName));
-                                JSONArray arrayJsonParams =  template.getJSONArray(columnName);
-                                JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
-                                String comparisonType = jsonParams.getString("tipocomparacao");
-                              //  String messageLog = null;
-                                
-                                // Verifica o tipo de comparação que irá ser feita
-                                
-                                switch(comparisonType)
-                                {
-                                    case "igualdade":
-                                        boolean success = comparaIgualdade(columnName, old, neww);
-                                        if (! success )
-                                        {
-                                            old.addLog("Linha "+ String.valueOf( old.getExcelRowNumber()) + "; coluna " +columnName + " inválida: valor antigo - " + old.getString(columnName) + "; valor novo - "+ neww.getString(columnName));
-                                            successMigrate = false;
-                                        }
-                                    break;
-                                        
-                                    case "referencia":
-                                        success = comparaReferencia(columnName, old, neww);
-                                        if (! success )
-                                        {
-                                            old.addLog("Linha "+ String.valueOf( old.getExcelRowNumber()) + "; coluna " +columnName + " inválida: valor antigo - " + old.getString(columnName) + "; valor novo - "+ neww.getString(columnName));
-                                            successMigrate = false;
-                                        }
-                                        break;
-                                        
-                                }
-                            }
-                            if (successMigrate)
-                                old.addLog("Linha "+ String.valueOf( old.getExcelRowNumber()) + "; Migrado com Sucesso");
-                            break;
-                        }
-                    }
-                    if (indicaMigrado == false)
-                        old.addLog("Linha "+ String.valueOf( old.getExcelRowNumber()) + "; Não Migrado");
-                }
-                
-                progress.setText("Gerando arquivo de log");
-                JFrame parentFrame = new JFrame();
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Salvar Arquivo de LOG");   
-                fileChooser.setSelectedFile(new File("log.txt"));
-                int userSelection = fileChooser.showSaveDialog(parentFrame);
-                File fileToSave = null;
-                if (userSelection == JFileChooser.APPROVE_OPTION) {
-                    fileToSave = fileChooser.getSelectedFile();
-                    System.out.println("Salvar arquivo: " + fileToSave.getAbsolutePath());
-                }
-                String textLog = "";
-                for (Integer i = 0; i < dadosAntigo.size(); i++)
-                {
-                    ArrayList<String> log = dadosAntigo.get(i).getLog();
-                    for (Integer a = 0; a < log.size(); a++ )
-                    {
-                        textLog +=  log.get(a) + System.getProperty("line.separator");
-                        System.out.println(log.get(a));
-                    }
-                }
-                
-                 FileWriter arquivo;
-		try {
-			//File f = new File(fileToSave.getAbsolutePath());
-                        
-                        if (! fileToSave.exists() )
-                        {
-                            arquivo = new FileWriter(new File(fileToSave.getAbsolutePath()));
-                            arquivo.write(textLog);
-                        }
-                        else
-                        {
-                            arquivo = new FileWriter(new File(fileToSave.getAbsolutePath()));
-                            Object[] options = { "Confirmar", "Cancelar" };
-                             if ( JOptionPane.showOptionDialog(null, "O arquivo já existe. Deseja substituir?", "Informação", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]) == 0 ) 
-                                 arquivo.write(textLog);
-                              
-                        }
-                           
-			arquivo.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-                
-                progress.setText("Processo de validação finalizado. Processados " + String.valueOf(dadosAntigo.size()) + " registros da planilha antiga e " + String.valueOf(dadosNovo.size()) + " da nova"  );
-            }
-        }.start();
         
       
+      
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        
+        
+        Notify n = (Notify) arg;
+        if (n != null)
+        {
+              if (! n.isRunning())
+              {
+                  progress.setText("Processamento finalizado");
+              }else
+              {
+                  // se a thread estiver correndo
+                if (! n.isLocalizadoP1())
+                    escreveLog("Linha: "+ String.valueOf(n.getEntidadeP1().getExcelRowNumber()) + "Não foram identificado as chaves da planilha 1");
+                else
+                {
+                    
+                    if (! n.isLocalizadoP2())
+                        escreveLog("Linha: "+ String.valueOf(n.getEntidadeP1().getExcelRowNumber()) + " da planilha 1. Não migrado");
+                    else
+                    {
+                       // Se P2 foi localizado 
+                        progress.setText("Validando linha "+ String.valueOf(n.getEntidadeP1().getExcelRowNumber()  ) + " da planilha 1 com linha " + String.valueOf( n.getEntidadeP2().getExcelRowNumber() ) + " da planilha 2" );
+                        for (Header he : header)
+                        {
+                            //**** para cada posição do header verifica se estão iguais
+                            
+                            // Identifica o tipo de comparação a ser feita
+                            String columnName = he.getColumnName();
+                            //System.out.println(template.getJSONArray(columnName));
+                            JSONArray arrayJsonParams =  template.getJSONArray(columnName);
+                            JSONObject jsonParams = arrayJsonParams.getJSONObject(0);
+                            String comparisonType = jsonParams.getString("tipocomparacao");
+                            InterfaceMigracao objInterfaceP1 = n.getEntidadeP1();
+                            InterfaceMigracao objInterfaceP2 = n.getEntidadeP2();
+                            boolean success = false;
+                            switch(comparisonType)
+                            {
+                                case "igualdade":
+                                     success = comparaIgualdade(columnName, objInterfaceP1, objInterfaceP2);
+                                    if (! success )
+                                    {
+                                        escreveLog("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " | coluna: " +columnName + " | log:  valor antigo: " + objInterfaceP1.getString(columnName) + " | valor novo: "+ objInterfaceP2.getString(columnName));
+                                        System.out.println("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " migrada com erros na coluna " + columnName);
+                                    }
+                                break;
+
+                                case "referencia":
+                                    success = comparaReferencia(columnName, objInterfaceP1, objInterfaceP2);
+                                    if (! success )
+                                    {
+                                        escreveLog("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " | coluna: " +columnName + " | log:  valor antigo: " + objInterfaceP1.getString(columnName) + " | valor novo: "+ objInterfaceP2.getString(columnName));
+                                        System.out.println("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " migrada com erros na coluna " + columnName);
+                                    }
+                                    break;
+
+                            }
+                            
+                        }
+                    }
+                }
+                
+              }
+            
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Uma das threads de leitura dos arquivos excel não se apresentou. Contate o suporte");
+            System.exit(0);
+        }
+        
+        if (n != null && n.isRunning() == false  )
+            closeOutputStream();
+    
+    }
+    
+   
+    
+    
+    private void escreveLog(String message)
+    {
+        if (outputStream == null)
+        {
+            JOptionPane.showMessageDialog(null, "Não é possível escrever no arquivo de log, o outputstream é null. Contate o suporte");
+            System.out.println("Não é possível escrever no arquivo de log, o outputstream é null. Contate o suporte");
+        }else
+        {
+            message += System.getProperty("line.separator");
+            byte[] strToBytes = message.getBytes();
+            try {
+                outputStream.write(strToBytes);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Exception ao escrever a mensagem de log: " + message   );
+                Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        } 
+           
+    }
+    
+    private void closeOutputStream()
+    {
+        
+        try {
+                outputStream.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (Runnable.FILE_LOG_NAME == null)
+        {
+            JOptionPane.showMessageDialog(null, "Não é possível salvar o log. O path não está definido. Contate o suporte");
+            System.out.println("Não é possível salvar o log. O path não está definido. Contate o suporte");
+        }else
+        {
+            
+            
+            // Pergunta onde quer salvar o arquivo de log temporario
+            JFrame parentFrame = new JFrame();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Salvar Arquivo de LOG");   
+            fileChooser.setSelectedFile(new File("log.txt"));
+            int userSelection = fileChooser.showSaveDialog(parentFrame);
+            
+            String pathNewFile = "";
+            File fileToSave = null;
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                fileToSave = fileChooser.getSelectedFile();
+                System.out.println("Salvar arquivo: " + fileToSave.getAbsolutePath());
+            }
+            
+            File tmpFile = new File(Runnable.FILE_LOG_NAME);
+            
+            FileInputStream in = null;
+            FileOutputStream out = null;
+            if (! fileToSave.exists() )
+            {
+                try {
+                    fileToSave.createNewFile();
+                    in = new FileInputStream(tmpFile);
+                    out = new FileOutputStream(fileToSave);
+                    // buffer para transportar os dados
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    // enquanto tiver dados para ler..
+                    while((length = in.read(buffer)) > 0 ){
+                        // escreve no novo arquivo
+                        out.write(buffer, 0 , length);
+                    }
+                     JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso");
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else
+            {
+               // arquivo = new FileWriter(new File(fileToSave.getAbsolutePath()));
+                Object[] options = { "Confirmar", "Cancelar" };
+                
+                 if ( JOptionPane.showOptionDialog(null, "O arquivo já existe. Deseja substituir?", "Informação", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]) == 0 ) 
+                 {
+                     try {
+                        fileToSave.createNewFile();
+                        in = new FileInputStream(tmpFile);
+                        out = new FileOutputStream(fileToSave);
+                        // buffer para transportar os dados
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        // enquanto tiver dados para ler..
+                        while((length = in.read(buffer)) > 0 ){
+                            // escreve no novo arquivo
+                            out.write(buffer, 0 , length);
+                        }
+                        JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso");
+                    } catch (IOException ex) {
+                        Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                 }
+
+            }
+            
+            try {
+                in.close();
+                out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            // deleta o arquivo de log temporario
+            if (tmpFile.exists())
+                tmpFile.delete();
+            
+        }
+        
         
     }
+   
+    
     
     private boolean comparaIgualdade(String columnName, InterfaceMigracao a, InterfaceMigracao b)  
     {
-
+       // System.out.println("Compara Igualdade " + columnName + "; valor antigo " + a.getString(columnName) + "; valor novo " + b.getString(columnName) );
        return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
 
     }
@@ -422,4 +412,6 @@ public class Runnable {
         
         return success;   
     }
+
+    
 }
