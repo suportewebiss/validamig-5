@@ -25,10 +25,12 @@ import org.json.JSONObject;
  * @author moises
  */
 public class Router {
-    private FileInputStream  oldFile;
-    private FileInputStream  newFile;
-    private File  templateFile;
-    private JSONObject template;
+   // private FileInputStream  oldFile;
+   // private FileInputStream  newFile;
+  //  private File  templateFile;
+    private String pathTemplate;
+    private String pathOldVersion;
+    private String pathNewVersion;
     private JLabel progress;
     
     private ArrayList<Header> header = new ArrayList<Header>();
@@ -36,7 +38,11 @@ public class Router {
 
     public Router(String pathOldVersion, String pathNewVersion, String pathTemplate, JLabel progress) {
         this.progress = progress;
-        try {
+        this.pathOldVersion = pathOldVersion;
+        this.pathNewVersion = pathNewVersion;
+        this.pathTemplate = pathTemplate;
+        
+        /* try {
             oldFile = new FileInputStream(new File(pathOldVersion));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,6 +64,7 @@ public class Router {
         } catch (IOException ex) {
             Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
         
         routeDispatch();
 	    
@@ -65,9 +72,11 @@ public class Router {
     
     private void routeDispatch()
     {
-        switch(template.getString("templatename"))
+        
+        Runnable run = new Runnable(pathOldVersion, pathNewVersion, pathTemplate, progress);
+        /*switch(template.getString("templatename"))
         {
-            case "AtividadeLc116R200": executeAtividadeLc116(); break;
+          //  case "AtividadeLc116R200": executeAtividadeLc116(); break;
             case "ValidaPessoaJuridicaR101": executePessoaJuridicaR101(); break;
             case "ValidaContadorContribuinteR190": executeContadorContribuinteR190(); break;
             case "ValidaEmailPessoaR120": executeEmailPessoaR120(); break;
@@ -78,15 +87,17 @@ public class Router {
             case "ValidaServicoAutorizadoContribuinteR180": executeServicoAutorizadoContribuinteR180(); break;
             case "ValidaPessoaFisicaR100": executePessoaFisicaR100(); break;
             case "ValidaContribuinteIssqnR170": executeContribuinteIssqnR170(); break;
+            default: start(); break;
 
         }
+        */
     }
     
     
-    public void executeAtividadeLc116()
+    /*public void executeAtividadeLc116()
     {
       
-        RunAtividadeLc116 run = new RunAtividadeLc116(oldFile, newFile, template, progress);
+        Runnable run = new Runnable(oldFile, newFile, template, progress);
         
     }
 
@@ -154,5 +165,12 @@ public class Router {
         RunContribuinteIssqn run = new RunContribuinteIssqn(oldFile, newFile, template, progress);
       
     }
+    
+    private void start() 
+    {
+        
+       Runnable run = new Runnable(oldFile, newFile, template, progress);
+      
+    }*/
     
 }

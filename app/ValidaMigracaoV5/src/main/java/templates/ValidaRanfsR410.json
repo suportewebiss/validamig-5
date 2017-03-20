@@ -1,0 +1,553 @@
+{
+  "templatename": "ValidaRanfsR410",
+  "colunachave": [
+    "cpfcnpjprestador",
+    "inscricaoprestador",
+    "numeronfse"
+  ],
+  "aliquota": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "artobra": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "bairroprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "bairrotomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "basecalculo": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cepprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "ceptomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cidadeintermediario": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cidadeprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cidadetomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "codigocnae": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "codigomunicipiogerador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "codigoobra": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "codigotributacaomunicipio": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "codigoverificacao": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "competencia": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Na v5 a competencia é a data do primeiro dia do mes. Ex 01/03/2017 para 03/2017",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "complementoenderecoprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "complementoenderecotomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cpfcnpjintermediario": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cpfcnpjprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "cpfcnpjtomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dataemissaoranfs": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Query este campo é date e não datetime",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dataemissaorps": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "\"uery este campo é date e não datetime",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "descontocondicionado": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "descontoincondicionado": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "discriminacao": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "emailprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "emailtomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "enderecoprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "enderecotomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "exigibilidadeiss": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "icentivofiscal": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "inscricaomunicipalintermediario": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "inscricaomunicipaltomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "inscricaoprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "issretido": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Indica se o iss está retido. 0 - Não, 1 - Sim",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "itemlistaservico": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "municipioincidencia": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Codigo ibge do municipio",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "municipioprestacaoservico": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Codigo IBGE do municipio",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numeroenderecoprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numeroenderecotomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numeroranfs": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numeroranfssubstituido": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numerorps": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "numerorpssubstituido": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "optantesimplesnacional": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "0 - Não, 1 - Sim",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "outrasinformacoes": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "outrasretencoes": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "paisprestacaoservico": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Verificar o codigo do pais para saber qual codigo usar",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "paistomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Verificar o codigo do pais para saber qual codigo usar",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "razaosocialintermediario": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "razaosocialprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "razaosocialtomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "regimeespecialtributacao": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "responsavelretencao": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "serierps": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "serierpssubstituido": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "statusranfs": [
+    {
+      "tipocomparacao": "referencia",
+      "observacao": "Confirmar os status da V5",
+      "valorantigo": [
+        "e",
+        "n",
+        "x"
+      ],
+      "valornovo": [
+        "0",
+        "1",
+        "2"
+      ]
+    }
+  ],
+  "statusrps": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "telefoneprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Parece que a V5 remove parentes, traços, etc",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "telefonetomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "observacao": "Parece que a V5 remove pontos, parenteses, etc",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "tiporps": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "tiporpssubstituido": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "ufdomunicipiogerador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "ufprestador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "uftomador": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorcofins": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorcsll": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valordeducoes": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorinss": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorir": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valoriss": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorliquidoranfs": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorpis": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "valorservicos": [
+    {
+      "tipocomparacao": "igualdade",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}

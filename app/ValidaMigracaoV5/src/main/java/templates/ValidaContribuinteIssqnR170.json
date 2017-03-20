@@ -1,6 +1,9 @@
 {
   "templatename": "ValidaContribuinteIssqnR170",
-  "colunachave": "numdocumento",  
+  "colunachave": [
+    "numdocumento",
+    "inscricao"
+  ],  
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",

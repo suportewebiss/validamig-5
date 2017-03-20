@@ -1,6 +1,9 @@
 {
   "templatename": "ValidaServicoAutorizadoContribuinteR180",
-  "colunachave": "numdocumento",  
+  "colunachave":  [
+    "numdocumento",
+    "inscricao"
+  ], 
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
