@@ -1,6 +1,9 @@
 {
   "templatename": "ValidaSocioPessoaJuridicaR140",
-  "colunachave": "numdocumento",  
+  "colunachave": [
+    "numdocumento",
+    "numdocumentosocio"
+  ],   
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",

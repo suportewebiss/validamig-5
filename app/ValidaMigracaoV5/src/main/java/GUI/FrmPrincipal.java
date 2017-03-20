@@ -45,10 +45,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jTextFieldTemplate = new javax.swing.JTextField();
         jButtonTemplate = new javax.swing.JButton();
         jButtonValidar = new javax.swing.JButton();
-        jButtonObterPlanilhaFinal = new javax.swing.JButton();
         jLabelProgress = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Validador Migração");
 
         jLabel1.setText("Planilha contendo os dados da antiga versão");
 
@@ -135,8 +135,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButtonObterPlanilhaFinal.setText("OBTER PLANILHA FINAL");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,8 +149,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabelProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonValidar)
-                        .addGap(42, 42, 42)
-                        .addComponent(jButtonObterPlanilhaFinal)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(521, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -163,9 +160,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelProgress)
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonValidar)
-                    .addComponent(jButtonObterPlanilhaFinal))
+                .addComponent(jButtonValidar)
                 .addContainerGap(98, Short.MAX_VALUE))
         );
 
@@ -227,7 +222,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:        
         JFileChooser fileChooser = new JFileChooser();        
         String pathTemplate = System.getProperty("user.dir") + File.separator + "src" +        
-        File.separator + "main" + File.separator + "java" + File.separator + "templates" ;        
+        File.separator + "main" + File.separator + "java" + File.separator + "templates" ;   
+        
+        File f = new File(pathTemplate);
+        if (! f.exists())
+           pathTemplate = System.getProperty("user.dir");
+                    
+        
+        
         fileChooser.setCurrentDirectory(new File(pathTemplate));        
         System.out.println(System.getProperty("user.dir") );        
         int result = fileChooser.showOpenDialog(this);        
@@ -292,7 +294,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCarregarDescontinuado;
     private javax.swing.JButton jButtonNova;
-    private javax.swing.JButton jButtonObterPlanilhaFinal;
     private javax.swing.JButton jButtonTemplate;
     private javax.swing.JButton jButtonValidar;
     private javax.swing.JLabel jLabel1;

@@ -16,11 +16,16 @@ public class Notify {
     private boolean running = false;
     private boolean localizadoP1 = false;
     private boolean localizadoP2 = false;
-  //  private String name = "";
+    private int totalRow = 0;
+
+//  private String name = "";
     private InterfaceMigracao entidadeP1 = null;
     private InterfaceMigracao entidadeP2 = null;
     private ArrayList<Header> headerP1 = new ArrayList<Header>();
     private ArrayList<Header> headerP2 = new ArrayList<Header>();
+    
+    
+    
    /*
     public Integer getnumRow() {
         return numRow;
@@ -92,6 +97,14 @@ public class Notify {
 
     public void setLocalizadoP2(boolean localizadoP2) {
         this.localizadoP2 = localizadoP2;
+    }
+
+    public int getTotalRow() {
+        return totalRow;
+    }
+
+    public void setTotalRow(int totalRow) {
+        this.totalRow = totalRow;
     }
     
     

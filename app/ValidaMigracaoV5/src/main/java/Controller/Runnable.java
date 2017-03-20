@@ -62,7 +62,7 @@ public class Runnable implements Observer {
     private static String TMP_DIRECTORY;
     private static String FILE_LOG_NAME;
     private FileOutputStream outputStream = null;
-    
+    private Thread thread = null;
     public Runnable(String srcOldFile, String srcNewFile, String srcTemplate, JLabel progress)
     {
         // Cria o diretório tmp
@@ -148,7 +148,7 @@ public class Runnable implements Observer {
       //  Observable.fromCallable(tRunnableOld);
         tRunnable.addObserver(this);
        
-        Thread thread = new Thread(tRunnable, "thread-importa-excel");
+        thread = new Thread(tRunnable, "thread-importa-excel");
         
         
        // teste(srcOldFile);
@@ -189,7 +189,7 @@ public class Runnable implements Observer {
                     else
                     {
                        // Se P2 foi localizado 
-                        progress.setText("Validando linha "+ String.valueOf(n.getEntidadeP1().getExcelRowNumber()  ) + " da planilha 1 com linha " + String.valueOf( n.getEntidadeP2().getExcelRowNumber() ) + " da planilha 2" );
+                        progress.setText("Validando linha "+ String.valueOf(n.getEntidadeP1().getExcelRowNumber()  )+ " de " + String.valueOf( n.getTotalRow()) + " da planilha 1 com linha " + String.valueOf( n.getEntidadeP2().getExcelRowNumber() ) + " da planilha 2" );
                         for (Header he : header)
                         {
                             //**** para cada posição do header verifica se estão iguais
@@ -239,7 +239,10 @@ public class Runnable implements Observer {
         }
         
         if (n != null && n.isRunning() == false  )
+        {
+            thread.interrupt();
             closeOutputStream();
+        }
     
     }
     
@@ -351,8 +354,10 @@ public class Runnable implements Observer {
             }
             
             try {
-                in.close();
-                out.close();
+                if (in != null)
+                   in.close();
+                if (out != null)
+                   out.close();
             } catch (IOException ex) {
                 Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
             }
