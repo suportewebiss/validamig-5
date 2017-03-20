@@ -38,6 +38,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
     private ArrayList<Header> headerP1 = null;
     private ArrayList<Header> headerP2 = null;
     private ArrayList<String> colunaChave = new ArrayList<String>();
+    private ArrayList<InterfaceMigracao> listaP2 = new ArrayList<InterfaceMigracao>();
     
     
     public ThreadExcelImport(String templateName, String srcFileP1, String srcFileP2, ArrayList<Header> header,  ArrayList<String> colunaChave)
@@ -157,7 +158,60 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
         
         
         
+        //******
+        // GRAVA EM MEMÓRIA A PLANILHA 2 PARA EVITAR O REABRIMENTO DA MESMA A CADA ITERAÇÃO DA PLANILHA 1
+        // *******************
+        stream2 = null;
+        try {
+            stream2 = new FileInputStream(new File(srcFileP2));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ThreadExcelImport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         workbook2 = StreamingReader.builder()
+                 .rowCacheSize(100)    // number of rows to keep in memory (defaults to 10)
+                 .bufferSize(4096)     // buffer size to use when reading InputStream to file (defaults to 1024)
+                 .open(stream2); 
+                 
+               sheet2 = null;
+               sheet2 = workbook2.getSheetAt(0);
+               
         
+             
+            for (Row rowP2 : sheet2) 
+            {   
+                
+                if (rowP2.getRowNum() > 0)
+                {
+                    InterfaceMigracao objInterfaceP2 =  Factory.getInstance(templateName);
+                    for (Header he2 : headerP2)
+                     {
+
+                        
+                         Cell cell = rowP2.getCell(he2.getColumnNumber(), Row.CREATE_NULL_AS_BLANK );
+                         objInterfaceP2.setString(he2.getColumnName(), cell.getStringCellValue().trim().toLowerCase()  );
+                         objInterfaceP2.setExcelRowNumber((rowP2.getRowNum() + 1));
+                         //System.out.println("Novo loop HeaderP2 da linhaP2 " + String.valueOf(rowP2.getRowNum()) + " coluna " + he2.getColumnName() );
+                     }
+                     listaP2.add(objInterfaceP2);
+                }
+            }
+        
+        // limpa da memoria a workbook2
+        try {
+            if (workbook2 != null)
+             workbook2.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ThreadExcelImport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // limpa da memoria o stream com workbook2
+        if (stream2 != null)
+            try {
+                stream2.close();
+       } catch (IOException ex) {
+           Logger.getLogger(ThreadExcelImport.class.getName()).log(Level.SEVERE, null, ex);
+       }
+            
         
         //******
         // FAZ A VALIDAÇÃO
@@ -181,7 +235,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
         sheet1 = workbook1.getSheetAt(0);
         
         InterfaceMigracao objInterfaceP1 = null;
-        InterfaceMigracao objInterfaceP2 = null;
+        
         
         for (Row rowP1 : sheet1) 
         {
@@ -213,7 +267,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
            
            
            objInterfaceP1 = Factory.getInstance(templateName);
-           objInterfaceP2 = Factory.getInstance(templateName);
+          // objInterfaceP2 = Factory.getInstance(templateName);
            
            objInterfaceP1.setExcelRowNumber(rowP1.getRowNum());
            Notify notify = new Notify();
@@ -237,31 +291,10 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                 
                boolean p2Localizado = false;
                
-                try {
-                    if (workbook2 != null)
-                    {
-                         workbook2.close();
-                         workbook2 = null;
-                    }
-                   } catch (IOException ex) {
-                       Logger.getLogger(ThreadExcelImport.class.getName()).log(Level.SEVERE, null, ex);
-                   }
-                stream2 = null;
-                 try {
-                     stream2 = new FileInputStream(new File(srcFileP2));
-                 } catch (FileNotFoundException ex) {
-                     Logger.getLogger(ThreadExcelImport.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-                 workbook2 = StreamingReader.builder()
-                 .rowCacheSize(100)    // number of rows to keep in memory (defaults to 10)
-                 .bufferSize(4096)     // buffer size to use when reading InputStream to file (defaults to 1024)
-                 .open(stream2); 
-                 
-               sheet2 = null;
-               sheet2 = workbook2.getSheetAt(0);
+               
                // localiza na planilha 2 a coluna
               
-               for (Row rowP2 : sheet2) 
+               for (InterfaceMigracao interfaceP2 : listaP2) 
                {
                     // Pega o hash dos campos chaves da planilha 1 a fim de localizar na planilha 1
                    
@@ -273,24 +306,19 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                     for(String chaveP2 : colunaChave )
                     {
                          // loop colunaChave ok
-                        Integer columIndex = -1;
+                        //Integer columIndex = -1;
+                        hashChaveP2 = DigestUtils.sha1Hex( interfaceP2.getString(chaveP2).trim().toLowerCase() + hashChaveP2 );
                        // System.out.println("header 2 " + headerP2  );
-                        for (Header he2 : headerP2)
+                        /*for (Header he2 : headerP2)
                         {
                             // Loop ok
                             if (he2.getColumnName().equals(chaveP2)   )
                             {
-                                columIndex = he2.getColumnNumber();
+                                hashChaveP2 = DigestUtils.sha1Hex( interfaceP2.getString(he2.getColumnName()).trim().toLowerCase() + hashChaveP2 );
                                 break;
                             }
-                        }
-                       // System.out.println("Não mostrou break;");
-                        if (columIndex > -1)
-                        {
-                            Cell cell = null;
-                            cell = rowP2.getCell(columIndex, Row.CREATE_NULL_AS_BLANK );
-                            hashChaveP2 = DigestUtils.sha1Hex( cell.getStringCellValue().trim().toLowerCase() + hashChaveP2 );
-                        }
+                        }*/
+                       
 
                     }
                     
@@ -306,16 +334,16 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                         if (hashChaveP1.equals(hashChaveP2) && rowP1.getRowNum() > 0  )
                         {
                                 p2Localizado = true;
-                                for (Header he2 : headerP2)
+                               /* for (Header he2 : headerP2)
                                 {
 
                                     Cell cell = null;
                                     cell = rowP2.getCell(he2.getColumnNumber(), Row.CREATE_NULL_AS_BLANK );
                                     objInterfaceP2.setString(he2.getColumnName(), cell.getStringCellValue().trim().toLowerCase()  );
                                     //System.out.println("Novo loop HeaderP2 da linhaP2 " + String.valueOf(rowP2.getRowNum()) + " coluna " + he2.getColumnName() );
-                                }
-                                objInterfaceP2.setExcelRowNumber((rowP2.getRowNum() + 1));
-                                notify.setEntidadeP2(objInterfaceP2);
+                                }*/
+                               // objInterfaceP2.setExcelRowNumber((rowP2.getRowNum() + 1));
+                                notify.setEntidadeP2(interfaceP2);
                                
                                  break;
                         }
