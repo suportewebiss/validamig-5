@@ -494,13 +494,6 @@
       "valornovo": "inherit"
     }
   ],
-  "valorcredito": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
   "valorcsll": [
     {
       "tipocomparacao": "igualdade",

@@ -21,6 +21,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import com.monitorjbl.xlsx.StreamingReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import org.apache.commons.codec.digest.DigestUtils;
 /**
@@ -38,7 +40,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
     private ArrayList<Header> headerP1 = null;
     private ArrayList<Header> headerP2 = null;
     private ArrayList<String> colunaChave = new ArrayList<String>();
-    private ArrayList<InterfaceMigracao> listaP2 = new ArrayList<InterfaceMigracao>();
+    private Map<String,InterfaceMigracao> listaP2 = new HashMap<String,InterfaceMigracao>();
     
     
     public ThreadExcelImport(String templateName, String srcFileP1, String srcFileP2, ArrayList<Header> header,  ArrayList<String> colunaChave)
@@ -183,6 +185,32 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                 if (rowP2.getRowNum() > 0)
                 {
                     InterfaceMigracao objInterfaceP2 =  Factory.getInstance(templateName);
+                    
+                    // calcula o hash
+                    String hashChaveP2 = "";
+                    for(String chaveP2 : colunaChave )
+                    {
+                        Integer columIndex = -1;
+                        for (Header he2 : headerP2)
+                        {
+                            if (he2.getColumnName().equals(chaveP2)   )
+                            {
+                                columIndex = he2.getColumnNumber();
+                                break;
+                            }
+                        }
+
+                        if (columIndex > -1)
+                        {
+                            Cell cell = null;
+                            cell = rowP2.getCell(columIndex, Row.CREATE_NULL_AS_BLANK );
+                           // hashChaveP1 = DigestUtils.sha1Hex(cell.getStringCellValue().trim().toLowerCase() + hashChaveP1 );
+                            hashChaveP2 = DigestUtils.sha1Hex(cell.getStringCellValue().trim().toLowerCase() + hashChaveP2 );
+                        }
+
+                    }
+                    
+                    
                     for (Header he2 : headerP2)
                      {
 
@@ -192,7 +220,15 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                          objInterfaceP2.setExcelRowNumber((rowP2.getRowNum() + 1));
                          //System.out.println("Novo loop HeaderP2 da linhaP2 " + String.valueOf(rowP2.getRowNum()) + " coluna " + he2.getColumnName() );
                      }
-                     listaP2.add(objInterfaceP2);
+                    
+                    if (hashChaveP2.equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null, "A linha "+ String.valueOf( ( rowP2.getRowNum()+1)  ) + " da planilha 2 tem as colunas chaves nula"   );
+                        System.exit(0);
+                    }else
+                        listaP2.put(hashChaveP2, objInterfaceP2);
+                    
+                     
                 }
             }
         
@@ -269,7 +305,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
            objInterfaceP1 = Factory.getInstance(templateName);
           // objInterfaceP2 = Factory.getInstance(templateName);
            
-           objInterfaceP1.setExcelRowNumber(rowP1.getRowNum());
+           objInterfaceP1.setExcelRowNumber((rowP1.getRowNum() + 1));
            Notify notify = new Notify();
            
            if (hashChaveP1.equals(""))
@@ -278,7 +314,6 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
            {
                notify.setLocalizadoP1(true); 
                //seta o numero da linha no excel
-               
                
                // Preenche o objeto de interface da planilha 1 com seus respectivos dados
                 for (Header he1 : headerP1)
@@ -291,69 +326,19 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                 
                boolean p2Localizado = false;
                
-               
-               // localiza na planilha 2 a coluna
-              
-               for (InterfaceMigracao interfaceP2 : listaP2) 
+                    // Preenche o objeto de interface da planilha 2 com seus respectivos dados
+               if (rowP1.getRowNum() > 0)
                {
-                    // Pega o hash dos campos chaves da planilha 1 a fim de localizar na planilha 1
-                   
-                   // loop rowP2 ok
-                  // System.out.println("NumLinha " + String.valueOf(rowP2.getRowNum()) );
-                    String hashChaveP2 = "";
-                    //System.out.println("Linha " + String.valueOf(rowP1.getRowNum()) + " com linha " + String.valueOf(rowP2.getRowNum()) );
-                   // System.out.println("Coluna chave " + colunaChave );
-                    for(String chaveP2 : colunaChave )
-                    {
-                         // loop colunaChave ok
-                        //Integer columIndex = -1;
-                        hashChaveP2 = DigestUtils.sha1Hex( interfaceP2.getString(chaveP2).trim().toLowerCase() + hashChaveP2 );
-                       // System.out.println("header 2 " + headerP2  );
-                        /*for (Header he2 : headerP2)
-                        {
-                            // Loop ok
-                            if (he2.getColumnName().equals(chaveP2)   )
-                            {
-                                hashChaveP2 = DigestUtils.sha1Hex( interfaceP2.getString(he2.getColumnName()).trim().toLowerCase() + hashChaveP2 );
-                                break;
-                            }
-                        }*/
-                       
-
-                    }
-                    
-                    
-                   // Cell ce1 = rowP1.getCell(32, Row.CREATE_NULL_AS_BLANK);
-                  //  Cell ce2 = rowP2.getCell(32, Row.CREATE_NULL_AS_BLANK);
-                   // System.out.println("Planilha 1: " + ce1.getStringCellValue().trim().toLowerCase() + " planilha 2 " + ce2.getStringCellValue().trim().toLowerCase() );
-                    if (! hashChaveP2.equals(""))
-                    {
-                        
-                       // System.out.println("P2 Localizado");
-                        // Preenche o objeto de interface da planilha 2 com seus respectivos dados
-                        if (hashChaveP1.equals(hashChaveP2) && rowP1.getRowNum() > 0  )
-                        {
-                                p2Localizado = true;
-                               /* for (Header he2 : headerP2)
-                                {
-
-                                    Cell cell = null;
-                                    cell = rowP2.getCell(he2.getColumnNumber(), Row.CREATE_NULL_AS_BLANK );
-                                    objInterfaceP2.setString(he2.getColumnName(), cell.getStringCellValue().trim().toLowerCase()  );
-                                    //System.out.println("Novo loop HeaderP2 da linhaP2 " + String.valueOf(rowP2.getRowNum()) + " coluna " + he2.getColumnName() );
-                                }*/
-                               // objInterfaceP2.setExcelRowNumber((rowP2.getRowNum() + 1));
-                                notify.setEntidadeP2(interfaceP2);
-                               
-                                 break;
-                        }
-                    }
-                        
-                   
-                   
+                    InterfaceMigracao objInterfaceMigracaoP2 = listaP2.get(hashChaveP1);
+                     if (objInterfaceMigracaoP2 != null   )
+                     {
+                             p2Localizado = true;
+                             notify.setEntidadeP2(objInterfaceMigracaoP2);
+                     }
+              
                }
-               
                notify.setLocalizadoP2(p2Localizado);
+               
                
            }
                
@@ -362,7 +347,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
            
             objInterfaceP1.setExcelRowNumber((rowP1.getRowNum() + 1));
             notify.setEntidadeP1(objInterfaceP1);
-            
+            notify.setTotalRow((sheet1.getLastRowNum() + 1) );
             
             notify.setRunning(isRunning);
             notify.setHeaderP1(headerP1);
@@ -383,6 +368,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
         notify.setRunning(false);
         setChanged();
         notifyObservers(notify);
+        listaP2 = null;
        
     }
 

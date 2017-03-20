@@ -1,6 +1,9 @@
 {
   "templatename": "ValidaAtividadeEconomicaPjR150",
-  "colunachave": "numdocumento",  
+  "colunachave": [
+    "numdocumento",
+    "cnae"
+  ],
   "numdocumento": [
     {
       "tipocomparacao": "igualdade",
