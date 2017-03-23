@@ -35,6 +35,7 @@
         "simples_normal",
         "simples_estimado",
         "simples_uniprofiss",
+        "ss",        
         ""
       ],
       "valornovo": [
@@ -48,6 +49,7 @@
         "simples_nacional",
         "simples_nacional_estimado",
         "VERIFICAR_DE_ACORDO_GODOY_NAO_EXISTE_SN_UNIPROFISS",
+        "simples_nacional",        
         ""
       ]
     }
@@ -100,14 +102,7 @@
       "valornovo": "inherit"
     }
   ],
-  "dtcadastro": [
-    {
-      "tipocomparacao": "igualdade",
-      "tipodado": "string",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
+  
   "nomecontatocontribuinte": [
     {
       "tipocomparacao": "igualdade",
@@ -126,11 +121,10 @@
       "valornovo": "inherit"
     }
   ],
-  "telefonecontatocontribuinte": [
+  "cependerecocontribuinte": [
     {
       "tipocomparacao": "igualdade",
       "tipodado": "string",
-      "observacao": "VERIFICAR COM ANA SE ESTE DADO É MIGRADO E DO QUE SE TRATA",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }

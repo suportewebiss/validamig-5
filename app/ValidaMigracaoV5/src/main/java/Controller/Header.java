@@ -9,9 +9,10 @@ package Controller;
  *
  * @author moises
  */
-public class Header {
+public class Header implements Cloneable{
     private String columnName;
     private Integer columnNumber;
+    
     
     public Header()
     {
@@ -40,6 +41,16 @@ public class Header {
 
     public void setColumnNumber(Integer columnNumber) {
         this.columnNumber = columnNumber;
+    }
+
+    @Override
+    protected Header clone() throws CloneNotSupportedException {
+        return (Header) super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public String toString(){
+        return columnName;
     }
     
     

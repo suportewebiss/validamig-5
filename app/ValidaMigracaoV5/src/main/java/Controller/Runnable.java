@@ -209,8 +209,8 @@ public class Runnable implements Observer {
                                      success = comparaIgualdade(columnName, objInterfaceP1, objInterfaceP2);
                                     if (! success )
                                     {
-                                        escreveLog("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " | coluna: " +columnName + " | log:  valor antigo: " + objInterfaceP1.getString(columnName) + " | valor novo: "+ objInterfaceP2.getString(columnName));
-                                        System.out.println("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " migrada com erros na coluna " + columnName);
+                                        escreveLog("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " | coluna: " +columnName + " | valor antigo: " + objInterfaceP1.getString(columnName) + " | valor novo: "+ objInterfaceP2.getString(columnName));
+                                        //System.out.println("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " migrada com erros na coluna " + columnName);
                                     }
                                 break;
 
@@ -218,8 +218,8 @@ public class Runnable implements Observer {
                                     success = comparaReferencia(columnName, objInterfaceP1, objInterfaceP2);
                                     if (! success )
                                     {
-                                        escreveLog("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " | coluna: " +columnName + " | log:  valor antigo: " + objInterfaceP1.getString(columnName) + " | valor novo: "+ objInterfaceP2.getString(columnName));
-                                        System.out.println("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " migrada com erros na coluna " + columnName);
+                                        escreveLog("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " | coluna: " +columnName + " | valor antigo: " + objInterfaceP1.getString(columnName) + " | valor novo: "+ objInterfaceP2.getString(columnName));
+                                        //System.out.println("Linha: "+ String.valueOf( objInterfaceP1.getExcelRowNumber()) + " migrada com erros na coluna " + columnName);
                                     }
                                     break;
 
@@ -375,9 +375,10 @@ public class Runnable implements Observer {
     
     private boolean comparaIgualdade(String columnName, InterfaceMigracao a, InterfaceMigracao b)  
     {
-       // System.out.println("Compara Igualdade " + columnName + "; valor antigo " + a.getString(columnName) + "; valor novo " + b.getString(columnName) );
-       return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
-
+       //System.out.println("Compara Igualdade " + columnName + "; valor antigo " + String.valueOf(a.getExcelRowNumber()) + "; valor novo " +  String.valueOf(b.getExcelRowNumber()) );
+       
+        return a.getString(columnName).trim().toLowerCase().equals(b.getString(columnName).trim().toLowerCase());
+       
     }
     
     private boolean comparaReferencia(String columnName, InterfaceMigracao a, InterfaceMigracao b)  

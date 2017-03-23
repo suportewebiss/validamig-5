@@ -37,8 +37,8 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
     private String srcFileP1;
     private String srcFileP2;
     public String threadName = null;
-    private ArrayList<Header> headerP1 = null;
-    private ArrayList<Header> headerP2 = null;
+    private ArrayList<Header> headerP1 = new ArrayList<Header>();
+    private ArrayList<Header> headerP2 = new ArrayList<Header>();
     private ArrayList<String> colunaChave = new ArrayList<String>();
     private Map<String,InterfaceMigracao> listaP2 = new HashMap<String,InterfaceMigracao>();
     
@@ -48,8 +48,16 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
         this.templateName = templateName;
         this.srcFileP1 = srcFileP1;
         this.srcFileP2 = srcFileP2;
-        this.headerP1 = new ArrayList<Header>(header);
-        this.headerP2 = new ArrayList<Header>(header);
+        for(Header he:header)
+        {
+            try {
+                this.headerP1.add(he.clone());
+                this.headerP2.add(he.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(ThreadExcelImport.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
         this.threadName = threadName;
         this.colunaChave = colunaChave;
         
@@ -160,6 +168,8 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
         
         
         
+        
+        
         //******
         // GRAVA EM MEMÓRIA A PLANILHA 2 PARA EVITAR O REABRIMENTO DA MESMA A CADA ITERAÇÃO DA PLANILHA 1
         // *******************
@@ -218,7 +228,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                          Cell cell = rowP2.getCell(he2.getColumnNumber(), Row.CREATE_NULL_AS_BLANK );
                          objInterfaceP2.setString(he2.getColumnName(), cell.getStringCellValue().trim().toLowerCase()  );
                          objInterfaceP2.setExcelRowNumber((rowP2.getRowNum() + 1));
-                         //System.out.println("Novo loop HeaderP2 da linhaP2 " + String.valueOf(rowP2.getRowNum()) + " coluna " + he2.getColumnName() );
+                         //System.out.println("Novo loop HeaderP2 da linhaP2 " + String.valueOf(rowP2.getRowNum()) + " coluna " + he2.getColumnName() + " Valor " + cell.getStringCellValue().trim().toLowerCase());
                      }
                     
                     if (hashChaveP2.equals(""))
@@ -275,7 +285,8 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
         
         for (Row rowP1 : sheet1) 
         {
-           
+           if(rowP1.getRowNum() > 0)
+           {
             
            // Pega o hash dos campos chaves da planilha 1 a fim de localizar na planilha 1
            String hashChaveP1 = "";
@@ -330,6 +341,8 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                if (rowP1.getRowNum() > 0)
                {
                     InterfaceMigracao objInterfaceMigracaoP2 = listaP2.get(hashChaveP1);
+                    //System.out.println("Hash "+ hashChaveP1 + " Objeto " + objInterfaceMigracaoP2);
+                    
                      if (objInterfaceMigracaoP2 != null   )
                      {
                              p2Localizado = true;
@@ -359,7 +372,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
             notifyObservers(notify);
            
             
-            
+        } 
         }
         
         isRunning = false;
