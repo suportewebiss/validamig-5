@@ -32,6 +32,7 @@ public class ContribuinteIssqn implements InterfaceMigracao{
     private String bairroEnderecoContribuinte = null;
     private String cidadeEnderecoContribuinte = null;
     private String ufEnderecoContribuinte = null;
+    private String cepEnderecoContribuinte = null;
     private ArrayList<String> log = new ArrayList<String>();
 
     public String getNumDocumento() {
@@ -280,6 +281,9 @@ public class ContribuinteIssqn implements InterfaceMigracao{
                 break;    
             case "ufenderecocontribuinte":
                 ret = ufEnderecoContribuinte;
+                break; 
+            case "cependerecocontribuinte":
+                ret = cepEnderecoContribuinte;
                 break;    
         }
         return ret;
@@ -347,6 +351,9 @@ public class ContribuinteIssqn implements InterfaceMigracao{
             case "ufenderecocontribuinte":
                 this.ufEnderecoContribuinte = value;
                 break;
+            case "cependerecocontribuinte":
+                this.cepEnderecoContribuinte = value;
+                break;    
         }
     }
     

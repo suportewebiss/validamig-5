@@ -131,7 +131,7 @@ public class Nfse implements InterfaceMigracao {
             case "cidadeprestador":  ret = cidadePrestador;  break;
             case "cidadetomador":  ret = cidadeTomador;  break;
             case "codigocnae":  ret = codigoCnae;  break;
-            case "codigomunicipiogerador":  ret = codigoMunicipioGerador;  break;
+            case "codigodomunicipiogerador":  ret = codigoMunicipioGerador;  break;
             case "codigoobra":  ret = codigoObra;  break;
             case "codigotributacaomunicipio":  ret = codigoTributacaoMunicipio;  break;
             case "codigoverificacao":  ret = codigoVerificacao;  break;
@@ -217,7 +217,7 @@ public class Nfse implements InterfaceMigracao {
             case "cidadeprestador":  cidadePrestador = value;  break;
             case "cidadetomador":  cidadeTomador = value;  break;
             case "codigocnae":  codigoCnae = value;  break;
-            case "codigomunicipiogerador":  codigoMunicipioGerador = value;  break;
+            case "codigodomunicipiogerador":  codigoMunicipioGerador = value;  break;
             case "codigoobra":  codigoObra = value;  break;
             case "codigotributacaomunicipio":  codigoTributacaoMunicipio = value;  break;
             case "codigoverificacao":  codigoVerificacao = value;  break;
