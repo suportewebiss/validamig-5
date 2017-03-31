@@ -72,6 +72,16 @@
             <!-- ... -->
 
          </plugins>
+         
+          <resources>
+            <resource>
+                   <directory>
+                     ${project.basedir}/target/resources
+                   </directory>
+            </resource>
+          </resources>
+         
+         
     </build>
     
 </project>
