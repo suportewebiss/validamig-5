@@ -191,7 +191,8 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
              
             for (Row rowP2 : sheet2) 
             {   
-                
+                setChanged();
+                notifyObservers("Carregando para processamento linha " + String.valueOf(rowP2.getRowNum() + 1) + " de " + (sheet2.getLastRowNum() + 1) + " da planilha 2" );
                 if (rowP2.getRowNum() > 0)
                 {
                     InterfaceMigracao objInterfaceP2 =  Factory.getInstance(templateName);
@@ -347,6 +348,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                      {
                              p2Localizado = true;
                              notify.setEntidadeP2(objInterfaceMigracaoP2);
+                             listaP2.remove(hashChaveP1);
                      }
               
                }

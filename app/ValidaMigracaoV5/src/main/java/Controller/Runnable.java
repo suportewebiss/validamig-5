@@ -168,8 +168,12 @@ public class Runnable implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        
-        
+       
+        if (arg.getClass().getName().equals("java.lang.String"))
+        {
+            progress.setText(String.valueOf(arg));
+            return;
+        }
         Notify n = (Notify) arg;
         if (n != null)
         {
@@ -358,9 +362,13 @@ public class Runnable implements Observer {
                    in.close();
                 if (out != null)
                    out.close();
+                if (outputStream != null)
+                    outputStream.close();
             } catch (IOException ex) {
                 Logger.getLogger(Runnable.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+              
             
             // deleta o arquivo de log temporario
             if (tmpFile.exists())

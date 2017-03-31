@@ -355,22 +355,6 @@
       "valornovo": "inherit"
     }
   ],
-  "paisprestacaoservico": [
-    {
-      "tipocomparacao": "igualdade",
-      "observacao": "Verificar o codigo do pais para saber qual codigo usar",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "paistomador": [
-    {
-      "tipocomparacao": "igualdade",
-      "observacao": "Verificar o codigo do pais para saber qual codigo usar",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
   "razaosocialintermediario": [
     {
       "tipocomparacao": "igualdade",
@@ -399,13 +383,15 @@
         "1",
         "2",
         "3",
-        "4"
+        "4",
+        ""
       ],
       "valornovo": [
         "1",
         "2",
         "3",
-        "4"        
+        "4",
+        ""
       ]
     }
   ],
@@ -437,13 +423,6 @@
         "1",
         "2"
       ]
-    }
-  ],
-  "statusrps": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
     }
   ],
   "telefoneprestador": [
