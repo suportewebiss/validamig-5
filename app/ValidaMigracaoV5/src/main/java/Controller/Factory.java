@@ -29,6 +29,7 @@ public class Factory {
             case "validacontribuinteissqnr170": obj = new ContribuinteIssqn(); break;
             case "validanfser400": obj = new Nfse(); break;
             case "validaranfsr410": obj = new Ranfs(); break;
+            case "validadebitoissqnr300": obj = new DebitoIssqn(); break;
         }
         
         return obj;

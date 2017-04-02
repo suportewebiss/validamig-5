@@ -56,5 +56,13 @@
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
+  ],
+  "cep": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
   ]
 }

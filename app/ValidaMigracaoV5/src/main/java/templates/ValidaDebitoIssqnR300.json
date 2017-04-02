@@ -1,0 +1,144 @@
+{
+  "templatename": "ValidaDebitoIssqnR300",
+  "colunachave": [
+    "numdocumento",
+    "inscricao",
+    "mescompetencia",
+    "anocompetencia",
+    "tributoid"
+  ],    
+  "numdocumento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "inscricao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "tributoid": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": [
+        "CorrecaoMonetaria",
+        "CRED_ISSQN",
+        "DiferPgto",
+        "IssEstima",
+        "IssEstimaUnipro",
+        "Issqn",
+        "IssqnDesIf",
+        "JurosMora",
+        "MultaMora",
+        "Retencao",
+        "Substrib"
+      ],
+      "valornovo": [
+        "",
+        "",
+        "ISSDIF",
+        "ISSQN",
+        "ISSQN",
+        "ISSQN",
+        "ISSDESIF",
+        "",
+        "",
+        "ISSRETIDO",
+        "ISSSUBSTI"
+      ]
+    }
+  ],
+  "situacaodebito": [
+    {
+      "tipocomparacao": "referencia",
+      "tipodado": "string",
+      "valorantigo": [
+        "baixabanco",
+        "cancelamento",
+        "adm",
+        "supersimples",
+        "s",
+        "c",
+        "s",
+        "d",
+        "p",
+        "l",
+        "compenss",
+        "pagamento",
+        "comprov",
+        "quitarefis"
+      ],
+      "valornovo": [
+        "quitado",
+        "cancelado",
+        "cancelado",
+        "cancelado",
+        "aberto",
+        "cancelado",
+        "suspenso",
+        "inscrito_em_dat",
+        "suspenso",
+        "aberto",
+        "quitado",
+        "quitado",
+        "quitado",
+        "quitado"
+      ]
+    }
+  ],
+  "nomeusuariocriacao": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtvencimento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "anocompetencia": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "mescompetencia": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "vlroriginal": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ],
+  "dtcancelamento": [
+    {
+      "tipocomparacao": "igualdade",
+      "tipodado": "string",
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
+    }
+  ]
+}
