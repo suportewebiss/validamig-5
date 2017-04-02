@@ -348,7 +348,7 @@ public class ThreadExcelImport extends Observable implements java.lang.Runnable 
                      {
                              p2Localizado = true;
                              notify.setEntidadeP2(objInterfaceMigracaoP2);
-                             listaP2.remove(hashChaveP1);
+                            
                      }
               
                }
