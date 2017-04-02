@@ -21,7 +21,8 @@ public class EnderecoPessoa implements InterfaceMigracao {
     private String bairro = null;
     private String cidade = null;
     private String uf = null;
-
+    private String cep = null;
+    
     public String getNumDocumento() {
         return numDocumento;
     }
@@ -130,6 +131,9 @@ public class EnderecoPessoa implements InterfaceMigracao {
             case "uf":
                 ret = uf;
                 break;
+            case "cep":
+                ret = cep;
+                break;
         }
         
         return ret;
@@ -161,6 +165,9 @@ public class EnderecoPessoa implements InterfaceMigracao {
                 break;    
             case "uf":
                 this.uf = value;
+                break; 
+            case "cep":
+                this.cep = value;
                 break; 
         }
     }
