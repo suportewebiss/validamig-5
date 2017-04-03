@@ -3,7 +3,7 @@
   "colunachave": [
     "cpfcnpjprestador",
     "inscricaoprestador",
-    "numeronfse"
+    "numeroranfs"
   ],
   "aliquota": [
     {
@@ -96,13 +96,6 @@
       "valornovo": "inherit"
     }
   ],
-  "codigoverificacao": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
   "competencia": [
     {
       "tipocomparacao": "igualdade",
@@ -150,14 +143,6 @@
     {
       "tipocomparacao": "igualdade",
       "observacao": "Query este campo é date e não datetime",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "dataemissaorps": [
-    {
-      "tipocomparacao": "igualdade",
-      "observacao": "\"uery este campo é date e não datetime",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -312,27 +297,6 @@
       "valornovo": "inherit"
     }
   ],
-  "numeroranfssubstituido": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "numerorps": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "numerorpssubstituido": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
   "optantesimplesnacional": [
     {
       "tipocomparacao": "igualdade",
@@ -351,22 +315,6 @@
   "outrasretencoes": [
     {
       "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "paisprestacaoservico": [
-    {
-      "tipocomparacao": "igualdade",
-      "observacao": "Verificar o codigo do pais para saber qual codigo usar",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "paistomador": [
-    {
-      "tipocomparacao": "igualdade",
-      "observacao": "Verificar o codigo do pais para saber qual codigo usar",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
@@ -409,41 +357,24 @@
       ]
     }
   ],
-  "serierps": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "serierpssubstituido": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
   "statusranfs": [
     {
       "tipocomparacao": "referencia",
       "observacao": "Confirmar os status da V5",
       "valorantigo": [
         "e",
-        "n",
-        "x"
+        "a",
+        "r",
+        "d",
+        "c"
       ],
       "valornovo": [
         "0",
         "1",
-        "2"
+        "2",
+        "",
+        ""
       ]
-    }
-  ],
-  "statusrps": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
     }
   ],
   "telefoneprestador": [
@@ -458,20 +389,6 @@
     {
       "tipocomparacao": "igualdade",
       "observacao": "Parece que a V5 remove pontos, parenteses, etc",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "tiporps": [
-    {
-      "tipocomparacao": "igualdade",
-      "valorantigo": "inherit",
-      "valornovo": "inherit"
-    }
-  ],
-  "tiporpssubstituido": [
-    {
-      "tipocomparacao": "igualdade",
       "valorantigo": "inherit",
       "valornovo": "inherit"
     }
