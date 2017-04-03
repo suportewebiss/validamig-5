@@ -5,7 +5,8 @@
     "inscricao",
     "mescompetencia",
     "anocompetencia",
-    "tributoid"
+    "tributoid",
+    "situacaodebito"
   ],    
   "numdocumento": [
     {
@@ -57,40 +58,10 @@
   ],
   "situacaodebito": [
     {
-      "tipocomparacao": "referencia",
+      "tipocomparacao": "igualdade",
       "tipodado": "string",
-      "valorantigo": [
-        "baixabanco",
-        "cancelamento",
-        "adm",
-        "supersimples",
-        "s",
-        "c",
-        "s",
-        "d",
-        "p",
-        "l",
-        "compenss",
-        "pagamento",
-        "comprov",
-        "quitarefis"
-      ],
-      "valornovo": [
-        "quitado",
-        "cancelado",
-        "cancelado",
-        "cancelado",
-        "aberto",
-        "cancelado",
-        "suspenso",
-        "inscrito_em_dat",
-        "suspenso",
-        "aberto",
-        "quitado",
-        "quitado",
-        "quitado",
-        "quitado"
-      ]
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
     }
   ],
   "nomeusuariocriacao": [
