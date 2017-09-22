@@ -22,36 +22,10 @@
   ],
   "regimeissqn": [
     {
-      "tipocomparacao": "referencia",
+      "tipocomparacao": "igualdade",
       "tipodado": "string",
-      "valorantigo": [
-        "estimativa",
-        "fixo",
-        "mei",
-        "na",
-        "nd",
-        "normal",
-        "uniprofiss",
-        "simples_normal",
-        "simples_estimado",
-        "simples_uniprofiss",
-        "ss",        
-        ""
-      ],
-      "valornovo": [
-        "estimado",
-        "autonomo",
-        "mei",
-        "sobre_movimento_mensal",
-        "sobre_movimento_mensal",
-        "sobre_movimento_mensal",
-        "uniprofissional",
-        "simples_nacional",
-        "simples_nacional_estimado",
-        "VERIFICAR_DE_ACORDO_GODOY_NAO_EXISTE_SN_UNIPROFISS",
-        "simples_nacional",        
-        ""
-      ]
+      "valorantigo": "inherit",
+      "valornovo": "inherit"
     }
   ],
   "qtdprofissionais": [
