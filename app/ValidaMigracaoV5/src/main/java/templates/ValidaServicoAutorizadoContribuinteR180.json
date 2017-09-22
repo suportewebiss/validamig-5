@@ -2,7 +2,8 @@
   "templatename": "ValidaServicoAutorizadoContribuinteR180",
   "colunachave":  [
     "numdocumento",
-    "inscricao"
+    "inscricao",
+	"codigolc116"
   ], 
   "numdocumento": [
     {
